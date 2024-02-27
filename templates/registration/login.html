@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% load static %}
+{#{% block style %}{% static 'user_profile/css/registration/login.css' %}{% endblock %}#}
+{% block title %}Log-in{% endblock %}
+{% block content_main %}
+    {% if not user.is_authenticated %}
+        <div class="login-form">
+            <h1 class="login-title">Вход</h1>
+            <form action="{% url 'login' %}" method="post">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+                <p><input type="submit" value="Войти" class="login-button"></p>
+                <p class="register-prompt">
+                    Нет аккаунта? <a href="{% url 'register' %}" class="register-link">Зарегистрируйтесь</a>
+                </p>
+            </form>
+            <p>
+                <a href="{% url "password_reset" %}" class="forgot-password-link">
+                    Забыли пароль?
+                </a>
+            </p>
+            {#        <a href="{% url "social:begin" "google-oauth2" %}" class="google-button">#}
+            {#            <i class="bi bi-google"></i>#}
+            {#        </a>#}
+            {#        <a href="{% url 'social:begin' 'github' %}" class="github-button">#}
+            {#            <i class="bi bi-github"></i>#}
+            {#        </a>#}
+        </div>
+    {% else %}
+        {% include 'registration/already_login.html' %}
+    {% endif %}
+{% endblock %}
