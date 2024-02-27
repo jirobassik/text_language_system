@@ -22,5 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('account/', include('user_profile.urls'), name='account'),
+                  path('social-auth/',
+                       include('social_django.urls', namespace='social')),
                   path('', include('text_language.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
