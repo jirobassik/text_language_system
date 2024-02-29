@@ -20,3 +20,29 @@ a {
 a:hover {
     color: grey;
 }
+
+
+.card-footer .bi.bi-question-circle {
+    position: relative;
+}
+
+.card-footer .bi.bi-question-circle::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -40px;
+    left: 80%;
+    transform: translateX(-70%);
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    width: 300px;
+    z-index: 9999;
+}
+
+.card-footer .bi.bi-question-circle:hover::after {
+    opacity: 1;
+}
