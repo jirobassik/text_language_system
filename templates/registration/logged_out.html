@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
 {% load static %}
-{#{% block style %}{% static 'user_profile/css/registration/logget_out.css' %}{% endblock %}#}
+{% block style %}{% static 'user_profile/css/registration/logget_out.css' %}{% endblock %}
 {% block title %}Logged out{% endblock %}
 {% block content_main %}
-    <h1 class="logged-out-title">Выход из системы</h1>
-    <p class="logged-out-message">
-        Вы успешно вышли из системы.
-        Вы можете <a href="{% url "login" %}" class="logged-out-link">войти снова</a>.
-    </p>
+    <div class="logged-out">
+        <h1 class="logged-out-title">Выход из системы</h1>
+        <p class="logged-out-message">
+            Вы успешно вышли из системы.
+            Вы можете <a href="{% url "login" %}" class="logged-out-link">войти снова</a>.
+        </p>
+    </div>
 {% endblock %}

@@ -1,0 +1,24 @@
+.already_login h4 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.already_login form {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.already_login button {
+    padding: 10px 20px;
+    background-color: grey;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.already_login button:hover {
+    background-color: #e3f2fd;
+}

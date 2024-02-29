@@ -1,0 +1,22 @@
+.dropdown {
+    left: 50px;
+}
+
+.dropdown-toggle {
+    text-decoration: none;
+    color: black;;
+}
+
+.dropdown-toggle:hover {
+    color: grey;
+}
+
+.login-link {
+    text-decoration: none;
+    color: black;;
+}
+
+.login-link:hover {
+    color: grey;
+}
+

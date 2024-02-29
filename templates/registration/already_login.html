@@ -1,5 +1,7 @@
-<h5>Чтобы перейти по этой ссылке, выйдите из системы</h5>
-<form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Выйти</button>
-</form>
+<div class="already_login">
+    <form method="post" action="{% url 'logout' %}">
+        <h4>Чтобы перейти по этой ссылке, выйдите из системы</h4>
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+</div>
