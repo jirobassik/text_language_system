@@ -1,0 +1,22 @@
+.card {
+    height: 100%;
+}
+
+.bi {
+    font-size: 25px;
+}
+
+.card-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: grey;
+}

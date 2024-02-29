@@ -1,6 +1,6 @@
 from django.urls import path
-from text_language.views import main_view
+from text_language.views import TextLanguageView
 
 urlpatterns = [
-    path('', main_view, name='text_language'),
+    path('', TextLanguageView.as_view(), name='text_language'),
 ]

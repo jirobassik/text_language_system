@@ -1,6 +1,5 @@
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 
 
-def main_view(request):
-    text = '12345'
-    return HttpResponse(text, content_type='text/plain')
+class TextLanguageView(TemplateView):
+    template_name = "text_language/text_language.html"

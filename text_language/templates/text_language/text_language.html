@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Text language{% endblock %}
+{% block style %}{% static 'text_language/css/text_language.css' %}{% endblock %}
+{% block content_main %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <a>
+                            <h5 class="card-title">Определение языка</h5>
+                        </a>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Реферирование текста</h5>
+                        <p class="card-text">Краткое содержание текста</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Определение темы текста</h5>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Извлечение ключевых слов</h5>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Анализ тональности</h5>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Извлечение именованных сущностей</h5>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <i class="bi bi-gear"></i>
+                        <i class="bi bi-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
