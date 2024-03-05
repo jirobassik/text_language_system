@@ -5,9 +5,8 @@ from django.views.generic import FormView
 from django_htmx.http import HttpResponseClientRefresh
 
 from language_app.forms import TextLanguageForm
-from lang_mod.short_word_method import ShortWord
+from lang_mod.methods import methods
 
-short_word_method = ShortWord()
 
 class TextLanguageView(FormView):
     template_name = 'language_app/language_form.html'
@@ -16,9 +15,11 @@ class TextLanguageView(FormView):
 
     def form_valid(self, form):
         text = form.cleaned_data.get('text')
+        method = form.cleaned_data.get('method')
+        print(method)
         if self.request.htmx:
             result_html = render_to_string('language_app/language_result.html',
-                                           {'result': short_word_method(text)})
+                                           {'result': methods.get(method)(text)})
             return HttpResponse(result_html)
         return super().form_valid(form)
 
