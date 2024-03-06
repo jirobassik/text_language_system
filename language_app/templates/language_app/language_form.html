@@ -6,11 +6,24 @@
 {% block content_main %}
     <div class="language-detector">
         <h1>Определение языка</h1>
-        <form method="POST" hx-post="{% url 'language_view' %}" hx-target="#result" hx-swap="innerHTML" hx-indicator="#loading">
+        <form method="POST" enctype="multipart/form-data" hx-post="{% url 'language_view' %}" hx-target="#result" hx-swap="innerHTML"
+              hx-indicator="#loading">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" name="detector">Определить язык</button>
         </form>
+        <script>
+            $(document).ready(function () {
+                $('#id_file').change(function () {
+                    var fileInput = $(this);
+                    if (fileInput.val()) {
+                        $('#id_text').attr('disabled', 'disabled');
+                    } else {
+                        $('#id_text').removeAttr('disabled');
+                    }
+                });
+            });
+        </script>
     </div>
     <div id="result"></div>
 {% endblock %}
