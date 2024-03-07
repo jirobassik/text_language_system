@@ -25,5 +25,5 @@ class MaxFileSizeValidation(MaxValueValidator):
 
 
 extension_validation = FileExtensionValidator(('docx', 'pdf', 'txt'))
-content_validation = ContentValidator(('docx', 'pdf', 'txt'))
+content_validation = ContentValidator(('application/pdf', 'application/zip', 'text/plain'))
 max_size_validation = MaxFileSizeValidation(2097152)

@@ -1,7 +1,6 @@
 import time
 from functools import cache
 
-from utilities.reading_files import ReadFile
 from utilities.textnormalizer import TextNormalizer
 from collections import Counter
 from operator import ge, getitem
@@ -9,7 +8,7 @@ from decimal import Decimal
 from language_app.models import LanguagePoaModel
 
 
-class ShortWord(ReadFile):
+class ShortWord:
     __slots__ = ('text_normalizer',)
 
     def __init__(self):

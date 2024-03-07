@@ -1,3 +1,4 @@
+annotated-types==0.6.0
 asgiref==3.7.2
 certifi==2024.2.2
 cffi==1.16.0
@@ -10,6 +11,7 @@ defusedxml==0.8.0rc2
 Django==5.0.2
 django-extensions==3.2.3
 django-htmx==1.17.2
+django-ninja==1.1.0
 googletrans==3.0.0
 h11==0.9.0
 h2==3.2.0
@@ -29,6 +31,8 @@ numpy==1.26.4
 oauthlib==3.2.2
 psycopg2==2.9.9
 pycparser==2.21
+pydantic==2.6.3
+pydantic_core==2.16.3
 PyJWT==2.8.0
 pyOpenSSL==24.0.0
 PyPDF2==3.0.1
