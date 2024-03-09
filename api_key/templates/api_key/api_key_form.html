@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}Generate api key{% endblock %}
+{% block content_main %}
+    <div class="language-detector">
+        <h1>API ключ</h1>
+        {% with key as api_key %}
+            {% if api_key %}
+                <p>{{ api_key.api_token }}</p>
+                <p>Истекает: {{ api_key.expired_at }}</p>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" name="detector" >{% if api_key %}Обновить ключ API {% else %}Создать ключ API{% endif %}</button>
+            </form>
+        {% endwith %}
+    </div>
+{% endblock %}

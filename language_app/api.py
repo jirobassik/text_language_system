@@ -5,11 +5,12 @@ from ninja import UploadedFile
 from ninja.errors import ValidationError
 
 from lang_mod.methods import methods
+from utilities.api.auth import ApiKey
 from utilities.validators.api_file_validations import validate_api_file
 from utilities.validators.text_validators import validate_api_text
 from utilities.file_manager.file import FileManager
 
-api = NinjaAPI()
+api = NinjaAPI(auth=ApiKey())
 
 
 class Methods(TextChoices):

@@ -29,6 +29,3 @@ class TextLanguageView(FormView):
     @staticmethod
     def choose_input(file, text):
         return FileManager.file_read(file) if file else text
-
-    def form_invalid(self, form):
-        return HttpResponseClientRefresh()

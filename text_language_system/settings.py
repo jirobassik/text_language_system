@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'user_profile',
     'text_language',
     'language_app',
+    'api_key',
     'social_django',
     'django_extensions',
     'django_htmx',
