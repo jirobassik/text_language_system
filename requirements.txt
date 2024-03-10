@@ -1,5 +1,6 @@
 annotated-types==0.6.0
 asgiref==3.7.2
+async-timeout==4.0.3
 certifi==2024.2.2
 cffi==1.16.0
 chardet==3.0.4
@@ -19,6 +20,7 @@ hpack==3.0.0
 hstspreload==2024.3.1
 httpcore==0.9.1
 httpx==0.13.3
+huey==2.5.0
 hyperframe==5.2.0
 idna==2.10
 joblib==1.3.2
@@ -40,6 +42,7 @@ python-decouple==3.8
 python-docx==1.1.0
 python-magic-bin==0.4.14
 python3-openid==3.2.0
+redis==5.0.3
 regex==2023.12.25
 requests==2.31.0
 requests-oauthlib==1.3.1

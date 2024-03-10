@@ -4,4 +4,4 @@ from api_key.models import ApiKeyModel
 
 @admin.register(ApiKeyModel)
 class LanguagePoaAdmin(admin.ModelAdmin):
-    list_display = ['api_token', 'created_at', 'expired_at', 'is_deleted', 'user']
+    list_display = ['api_token', 'created_at', 'expired_at', 'is_deleted', 'is_expired', 'user']

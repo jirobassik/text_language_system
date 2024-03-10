@@ -25,10 +25,11 @@ class ApiKeyView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def update_api_key(self):
-        ApiKeyModel.objects.filter(user=self.request.user, is_deleted=False).update(api_token=generate_api_key())
+        ApiKeyModel.objects.filter(user=self.request.user, is_deleted=False, is_expired=False).update(
+            api_token=generate_api_key())
 
     def get_api_key(self):
         try:
-            return ApiKeyModel.objects.get(user=self.request.user, is_deleted=False)
+            return ApiKeyModel.objects.get(user=self.request.user, is_deleted=False, is_expired=False)
         except ObjectDoesNotExist:
             return False
