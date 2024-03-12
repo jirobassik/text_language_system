@@ -107,6 +107,8 @@ DATABASES = {
     }
 }
 
+CONN_MAX_AGE = 20  # The lifetime of a database connection
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',

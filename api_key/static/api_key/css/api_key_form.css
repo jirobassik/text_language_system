@@ -1,0 +1,29 @@
+.card {
+    height: 100%;
+    width: 600px;
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.bi {
+    font-size: 25px;
+}
+
+.card-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.copy-button, .gen-button {
+    padding: 5px 10px;
+    background-color: cornflowerblue;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-button:hover,.gen-button:hover  {
+    background-color: grey;
+}

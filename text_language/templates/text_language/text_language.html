@@ -1,87 +1,90 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load cache %}
 {% block title %}Text language{% endblock %}
 {% block style %}{% static 'text_language/css/text_language.css' %}{% endblock %}
 {% block content_main %}
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <a href="{% url 'language_view' %}">
-                            <h5 class="card-title">Определение языка</h5>
-                        </a>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <a href="https://textproc.com:8000/language-detector/api/docs"><i
-                            class="bi bi-gear"></i></a>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+    {% cache 7200 choose_method %}
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{% url 'language_view' %}">
+                                <h5 class="card-title">Определение языка</h5>
+                            </a>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="https://textproc.com:8000/language-detector/api/docs"><i
+                                    class="bi bi-gear"></i></a>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения языка текста. Поддерживаемые языки:"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Реферирование текста</h5>
-                        <p class="card-text">Краткое содержание текста</p>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <i class="bi bi-gear"></i>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Реферирование текста</h5>
+                            <p class="card-text">Краткое содержание текста</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <i class="bi bi-gear"></i>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для создания краткого содержания текста. Поддерживаются различные методы."></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Определение темы текста</h5>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <i class="bi bi-gear"></i>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Определение темы текста</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <i class="bi bi-gear"></i>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения темы текста. Поддерживаются различные методы."></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Извлечение ключевых слов</h5>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <i class="bi bi-gear"></i>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Извлечение ключевых слов</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <i class="bi bi-gear"></i>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения ключевых слов текста."></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Анализ тональности</h5>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <i class="bi bi-gear"></i>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Анализ тональности</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <i class="bi bi-gear"></i>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения анализа тональности текста,
                         а именно: позитивный, негативный, нейтральный"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Извлечение именованных сущностей</h5>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <i class="bi bi-gear"></i>
-                        <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Извлечение именованных сущностей</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <i class="bi bi-gear"></i>
+                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для извлечения именованных сущностей"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endcache %}
 {% endblock %}

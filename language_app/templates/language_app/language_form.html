@@ -1,16 +1,41 @@
 {% extends 'layout.html' %}
 {% load static %}
-{#{% block style %}{% static 'history/css/messages.css' %}{% endblock %}#}
-{#{% block style2 %}{% static 'text_converter/css/text_to_audio_audio_upload.css' %}{% endblock %}#}
+{% block style %}{% static 'language_app/css/language_form.css' %}{% endblock %}
+{% block style2 %}{% static 'user_profile/css/messages.css' %}{% endblock %}
 {% block title %}Detect language{% endblock %}
 {% block content_main %}
     <div class="language-detector">
-        <h1>Определение языка</h1>
-        <form method="POST" enctype="multipart/form-data" hx-post="{% url 'language_view' %}" hx-target="#result" hx-swap="innerHTML"
-              hx-indicator="#loading">
+        <form method="POST" enctype="multipart/form-data" class="language-form">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" name="detector">Определить язык</button>
+            <div class="form-input">
+                <div class="input-grid">
+                    {{ form.text.errors }}
+                    {{ form.text.label_tag }}
+                    {{ form.text.help_text }}
+                    {{ form.text }}
+                    <div class="file-and-method-grid">
+                        <div class="file-input">
+                            {{ form.file.errors }}
+                            {{ form.file.label_tag }}
+                            {{ form.file }}
+                            {{ form.file.help_text }}
+                        </div>
+                        <div class="method-select">
+                            {{ form.method.errors }}
+                            {{ form.method.label_tag }}
+                            {{ form.method }}
+                            {{ form.method.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" name="detector">Определить язык</button>
+            </div>
+            {% if result %}
+                <div class="result">
+                    <h2>Результат</h2>
+                    <p>{{ result }}</p>
+                </div>
+            {% endif %}
         </form>
         <script>
             $(document).ready(function () {
@@ -25,6 +50,4 @@
             });
         </script>
     </div>
-    <div id="result"></div>
 {% endblock %}
-{#<form hx-post="{% url 'create-game' %}" hx-target="#game_view" method="POST" class="game-form">#}

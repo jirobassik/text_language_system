@@ -18,13 +18,10 @@ class TextLanguageView(FormView):
         text = form.cleaned_data.get('text')
         method = form.cleaned_data.get('method')
         file = form.cleaned_data.get('file')
-        print(method)
         choose_input_text = self.choose_input(file, text)
-        if self.request.htmx:
-            result_html = render_to_string('language_app/language_result.html',
-                                           {'result': methods.get(method)(choose_input_text)})
-            return HttpResponse(result_html)
-        return super().form_valid(form)
+        context = self.get_context_data()
+        context['result'] = methods.get(method)(choose_input_text)
+        return self.render_to_response(context)
 
     @staticmethod
     def choose_input(file, text):
