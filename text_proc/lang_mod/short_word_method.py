@@ -1,7 +1,7 @@
 import time
 from functools import cache
 
-from utilities.textnormalizer import TextNormalizer
+from text_proc.textnormalizer import TextNormalizer
 from collections import Counter
 from operator import ge, getitem
 from decimal import Decimal

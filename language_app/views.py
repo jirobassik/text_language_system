@@ -1,11 +1,8 @@
-from django.http import HttpResponse
-from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from django_htmx.http import HttpResponseClientRefresh
 
 from language_app.forms import TextLanguageForm
-from lang_mod.methods import methods
+from text_proc.lang_mod.methods import methods
 from utilities.file_manager.file import FileManager
 
 

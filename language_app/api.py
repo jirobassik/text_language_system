@@ -4,7 +4,7 @@ from ninja import NinjaAPI, Schema, File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 
-from lang_mod.methods import methods
+from text_proc.lang_mod.methods import methods
 from utilities.api.auth import ApiKey
 from utilities.validators.api_file_validations import validate_api_file
 from utilities.validators.text_validators import validate_api_text

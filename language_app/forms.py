@@ -1,5 +1,6 @@
 from django import forms
-from utilities.validators.file_validations import content_validation, max_size_validation, extension_validation
+from utilities.validators.file_validations import content_validation, max_size_validation, extension_validation, \
+    max_length_file_text, min_length_file_text
 
 
 class TextLanguageForm(forms.Form):
@@ -20,7 +21,7 @@ class TextLanguageForm(forms.Form):
     file = forms.FileField(
         required=False,
         label='Файл',
-        validators=(content_validation, max_size_validation, extension_validation),
+        validators=(extension_validation, content_validation, max_size_validation),
         widget=forms.ClearableFileInput(attrs={'class': 'file-input'}),
         help_text='Файл размера не больше 30 KБ и формата: DOCX, PDF, TXT'
     )
@@ -30,3 +31,10 @@ class TextLanguageForm(forms.Form):
         widget=forms.Select(attrs={'class': 'method-select'}),
         label='Метод определения языка'
     )
+
+    def clean_file(self):
+        cd = self.cleaned_data.get('file')
+        if cd:
+            for validator in (min_length_file_text, max_length_file_text):
+                validator(cd)
+        return cd
