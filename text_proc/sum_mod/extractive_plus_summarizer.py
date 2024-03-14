@@ -4,7 +4,7 @@ from nltk import sent_tokenize
 from text_proc.textnormalizer import TextNormalizer
 
 
-class StandartTextSummarize:
+class ExtractivePlusSummarize:
     __slots__ = ('text_normalizer',)
 
     def __init__(self):
@@ -13,12 +13,12 @@ class StandartTextSummarize:
     def summarize_text(self, text: str):
         text_without_n = text
         list_sentence_tokenize = sent_tokenize(text_without_n)
-        scores = self.calculate_weight_sentences(text_without_n, list_sentence_tokenize)
+        scores = self.__calculate_weight_sentences(text_without_n, list_sentence_tokenize)
         sentence_score = zip(list_sentence_tokenize, scores)
         sorted_sentence_score = dict(sorted(sentence_score, key=lambda item: getitem(item, 1), reverse=True))
         return ' '.join(list(sorted_sentence_score.keys())[:10])
 
-    def calculate_weight_sentences(self, text: str, sent_tokenize_: list):
+    def __calculate_weight_sentences(self, text: str, sent_tokenize_: list):
         list_words, list_sentences = self.text_normalizer(text), list(map(self.text_normalizer, sent_tokenize_))
         scores = []
         for sentences in list_sentences:
@@ -39,7 +39,7 @@ class StandartTextSummarize:
 
     def __inverse_document_frequency(self, word: str, list_words: list, list_sentences: list):
         return 0.5 * (1 + self.__term_frequency(list_words, word) / self.__max_frequency(list_sentences, word)) * \
-            log(len(list_sentences) / 1)  # Что делать с еденицией
+            log(len(list_sentences) / 1)
 
     def __max_frequency(self, list_sentences: list, word: str):
         term_frequency = 0
