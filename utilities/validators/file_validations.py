@@ -4,6 +4,12 @@ import magic
 
 from utilities.file_manager.file import FileManager
 
+class CleanMixin:
+    def clean(self, x):
+        try:
+            return len(FileManager().file_read(x))
+        except TypeError:
+            raise forms.ValidationError('Не удалось прочитать файл')
 
 class ContentValidator(FileExtensionValidator):
     message = 'Неподдерживаемый тип файла'
@@ -26,15 +32,11 @@ class MaxFileSizeValidation(MaxValueValidator):
         return x.size
 
 
-class MaxLengthFileValidator(MaxLengthValidator):
-    def clean(self, x):
-        return len(FileManager().file_read(x))
+class MaxLengthFileValidator(CleanMixin, MaxLengthValidator):
+    pass
 
-
-class MinLengthFileValidator(MinLengthValidator):
-
-    def clean(self, x):
-        return len(FileManager().file_read(x))
+class MinLengthFileValidator(CleanMixin, MinLengthValidator):
+    pass
 
 
 extension_validation = FileExtensionValidator(('docx', 'pdf', 'txt'))

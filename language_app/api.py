@@ -7,10 +7,15 @@ from ninja.errors import ValidationError
 from text_proc.lang_mod.methods import methods
 from utilities.api.auth import ApiKey
 from utilities.validators.api_file_validations import validate_api_file
-from utilities.validators.text_validators import validate_api_text
+from utilities.validators.api_text_validators import validate_api_text
 from utilities.file_manager.file import FileManager
 
-api = NinjaAPI(auth=ApiKey())
+api = NinjaAPI(auth=ApiKey(), title="Language detector API",
+               description='<p>API для определения '
+                           'языка.<br><b>Ограничения</b><br>Текст: от 50 до 1000 символов<br>Файл: от 50 до 3500 '
+                           'символов. Расширения: DOCX, PDF, TXT. Размер не более 2 мб</p>')
+
+initial_text = '''I am living with a very welcoming host family. I have my own private bedroom, but we eat breakfast.'''
 
 
 class Methods(TextChoices):
@@ -20,7 +25,7 @@ class Methods(TextChoices):
 
 
 class LanguageDet(Schema):
-    text: str
+    text: str = initial_text
     method: Methods = 'short_word'
 
 
