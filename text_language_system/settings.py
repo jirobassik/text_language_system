@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_htmx',
     'ninja',
+    'ninja_extra',
     'huey.contrib.djhuey',
     'debug_toolbar',
 ]
