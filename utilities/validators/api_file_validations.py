@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from django.conf import settings
 from ninja.errors import ValidationError
 from utilities.validators.file_validations import ContentValidator, MaxFileSizeValidation, FileExtensionValidator, \
     MinLengthFileValidator, MaxLengthFileValidator
@@ -29,18 +29,18 @@ class ApiMaxFileSizeValidation(MaxFileSizeValidation, ApiBaseValidator):
 
 
 class ApiMaxLengthFileValidator(MaxLengthFileValidator, ApiBaseValidator):
-    message = 'Длина текста должна быть меньше 3500'
+    message = f'Длина текста должна быть меньше {settings.API_VALID_MAX_FILE_LENGTH_TEXT}'
 
 
 class ApiMinLengthFileValidator(MinLengthFileValidator, ApiBaseValidator):
-    message = 'Длина текста должна быть больше 50'
+    message = f'Длина текста должна быть больше {settings.API_VALID_MIN_FILE_LENGTH_TEXT}'
 
 
-api_extension_validation = ApiFileExtensionValidator(('docx', 'pdf', 'txt'))
-api_content_validation = ApiContentValidator(('application/pdf', 'application/zip', 'text/plain'))
-api_max_size_validation = ApiMaxFileSizeValidation(2097152)
-api_max_length_file_text = ApiMaxLengthFileValidator(3500)
-api_min_length_file_text = ApiMinLengthFileValidator(50)
+api_extension_validation = ApiFileExtensionValidator(settings.API_VALID_EXTENSIONS_FILE)
+api_content_validation = ApiContentValidator(settings.API_VALID_CONTENT_FILE)
+api_max_size_validation = ApiMaxFileSizeValidation(settings.API_VALID_MAX_FILE_SIZE)
+api_max_length_file_text = ApiMaxLengthFileValidator(settings.API_VALID_MAX_FILE_LENGTH_TEXT)
+api_min_length_file_text = ApiMinLengthFileValidator(settings.API_VALID_MIN_FILE_LENGTH_TEXT)
 
 
 def validate_api_file(file):

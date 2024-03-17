@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from utilities.validators.file_validations import content_validation, max_size_validation, extension_validation, \
     max_length_file_text, min_length_file_text
 
@@ -9,13 +10,14 @@ class TextLanguageForm(forms.Form):
                    'Mediterranean Sea earlier today. I am living with a very welcoming host family.'
 
     text = forms.CharField(
-        max_length=1000,
-        min_length=50,
+        max_length=settings.VALID_MAX_FORM_LENGTH_TEXT,
+        min_length=settings.VALID_MIN_FORM_LENGTH_TEXT,
         required=False,
         widget=forms.Textarea(attrs={'class': 'text-input'}),
         initial=initial_text,
         label='Определения языка. Введите текст или выберите файл для обработки',
-        help_text='Текст длиной от 50 до 1000 символов',
+        help_text=f'Текст длиной от {settings.VALID_MIN_FORM_LENGTH_TEXT} до '
+                  f'{settings.VALID_MAX_FORM_LENGTH_TEXT} символов',
     )
 
     file = forms.FileField(
@@ -23,7 +25,7 @@ class TextLanguageForm(forms.Form):
         label='Файл',
         validators=(extension_validation, content_validation, max_size_validation),
         widget=forms.ClearableFileInput(attrs={'class': 'file-input'}),
-        help_text='Файл размера не больше 30 KБ и формата: DOCX, PDF, TXT'
+        help_text='Файл размера не больше 2 МБ и формата: DOCX, PDF, TXT'
     )
 
     method = forms.ChoiceField(

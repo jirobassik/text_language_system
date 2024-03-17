@@ -1,5 +1,6 @@
 from django.db.models import TextChoices
 from django.http import HttpResponse
+from django.conf import settings
 from ninja import Schema, File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
@@ -43,12 +44,12 @@ class LanguageDetFile(Schema):
 
 
 class User60MinRateThrottle(ApiTokenUserRateThrottle):
-    rate = "60/min"
+    rate = f"{settings.USER_MIN_THROTTLE}/min"
     scope = "minutes"
 
 
 class User100PerDayRateThrottle(ApiTokenUserRateThrottle):
-    rate = "100/day"
+    rate = f"{settings.USER_DAY_THROTTLE}/day"
     scope = "days"
 
 

@@ -1,17 +1,18 @@
 from django.core.validators import MaxLengthValidator, MinLengthValidator
+from django.conf import settings
 from utilities.validators.base_validator import ApiBaseValidator
 
 
 class ApiMinLengthValidator(MinLengthValidator, ApiBaseValidator):
-    message = 'Длина текста должна быть больше 50'
+    message = f'Длина текста должна быть больше {settings.API_VALID_MIN_FORM_LENGTH_TEXT}'
 
 
 class ApiMaxLengthValidator(MaxLengthValidator, ApiBaseValidator):
-    message = 'Длина текста должна быть не больше 1000'
+    message = f'Длина текста должна быть не больше {settings.API_VALID_MIN_FORM_LENGTH_TEXT}'
 
 
-api_max_length_validation = ApiMaxLengthValidator(1000)
-api_min_length_validation = ApiMinLengthValidator(50)
+api_max_length_validation = ApiMaxLengthValidator(settings.API_VALID_MAX_FORM_LENGTH_TEXT)
+api_min_length_validation = ApiMinLengthValidator(settings.API_VALID_MIN_FORM_LENGTH_TEXT)
 
 
 def validate_api_text(text):

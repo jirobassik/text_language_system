@@ -1,5 +1,6 @@
 from django.core.validators import FileExtensionValidator, MaxValueValidator, MaxLengthValidator, MinLengthValidator
 from django import forms
+from django.conf import settings
 import magic
 
 from utilities.file_manager.file import FileManager
@@ -39,8 +40,8 @@ class MinLengthFileValidator(CleanMixin, MinLengthValidator):
     pass
 
 
-extension_validation = FileExtensionValidator(('docx', 'pdf', 'txt'))
-content_validation = ContentValidator(('application/pdf', 'application/zip', 'text/plain'))
-max_size_validation = MaxFileSizeValidation(2097152)
-max_length_file_text = MaxLengthFileValidator(3500)
-min_length_file_text = MinLengthFileValidator(50)
+extension_validation = FileExtensionValidator(settings.VALID_EXTENSIONS_FILE)
+content_validation = ContentValidator(settings.VALID_CONTENT_FILE)
+max_size_validation = MaxFileSizeValidation(settings.VALID_MAX_FILE_SIZE)
+max_length_file_text = MaxLengthFileValidator(settings.VALID_MAX_FILE_LENGTH_TEXT)
+min_length_file_text = MinLengthFileValidator(settings.VALID_MIN_FILE_LENGTH_TEXT)
