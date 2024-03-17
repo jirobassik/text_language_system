@@ -11,6 +11,8 @@
                     {% if api_key %}
                         <p class="card-text">{{ api_key.api_token }}</p>
                         <p class="card-text">Истекает: {{ api_key.expired_at }}</p>
+                    {% else %}
+                        <p class="card-text">У вас ещё нет ключа, нажмите кнопку создать токен</p>
                     {% endif %}
                 </div>
                 <div class="card-footer bg-transparent">
@@ -24,16 +26,16 @@
             </div>
         {% endwith %}
     </div>
-<script>
-    function copyToken() {
-        var tokenElement = document.querySelector('.language-detector .card-text');
-        var token = tokenElement.textContent;
-        var tempTextArea = document.createElement('textarea');
-        tempTextArea.value = token;
-        document.body.appendChild(tempTextArea);
-        tempTextArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempTextArea);
-    }
-</script>
+    <script>
+        function copyToken() {
+            var tokenElement = document.querySelector('.language-detector .card-text');
+            var token = tokenElement.textContent;
+            var tempTextArea = document.createElement('textarea');
+            tempTextArea.value = token;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+        }
+    </script>
 {% endblock %}
