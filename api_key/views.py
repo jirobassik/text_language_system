@@ -4,7 +4,7 @@ from api_key.forms import ApiKeyForm
 from api_key.models import ApiKeyModel, generate_api_key
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.core.cache import cache
 
 class ApiKeyView(LoginRequiredMixin, FormView):
     form_class = ApiKeyForm
@@ -30,6 +30,14 @@ class ApiKeyView(LoginRequiredMixin, FormView):
 
     def get_api_key(self):
         try:
+            self.get_throttle_value()
             return ApiKeyModel.objects.get(user=self.request.user, is_deleted=False, is_expired=False)
         except ObjectDoesNotExist:
             return False
+
+    def get_throttle_value(self):
+        key = ApiKeyModel.objects.get(user=self.request.user, is_deleted=False, is_expired=False)
+        print(key)
+        value = cache.get("throttle_%(scope)s_%(ident)s" % {'scope': 'days',
+                                                            'ident': ApiKeyModel.objects.get(api_token=key).user.pk})
+        print(value)

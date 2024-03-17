@@ -1,5 +1,6 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% load custom_tag %}
 {% block title %}Generate api key{% endblock %}
 {% block style %}{% static 'api_key/css/api_key_form.css' %}{% endblock %}
 {% block content_main %}
@@ -10,6 +11,10 @@
                     <h5 class="card-title">API ключ</h5>
                     {% if api_key %}
                         <p class="card-text">{{ api_key.api_token }}</p>
+                        {% get_throttle_value_html api_key.user.pk as token_throttle %}
+                        {% if token_throttle %}
+                            <p class="card-text">Использован {{ token_throttle }} раз</p>
+                        {% endif %}
                         <p class="card-text">Истекает: {{ api_key.expired_at }}</p>
                     {% else %}
                         <p class="card-text">У вас ещё нет ключа, нажмите кнопку создать токен</p>
