@@ -1,0 +1,3 @@
+# Throttle const
+USER_DAY_THROTTLE = 100
+USER_MIN_THROTTLE = 60
