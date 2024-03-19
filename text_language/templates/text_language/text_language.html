@@ -25,11 +25,11 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Реферирование текста</h5>
+                            <a href="{% url 'summarize_view' %}"><h5 class="card-title">Реферирование текста</h5></a>
                             <p class="card-text">Краткое содержание текста</p>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <i class="bi bi-gear"></i>
+                            <a href="https://textproc.com:8000/summarize-text/api/docs"><i class="bi bi-gear"></i></a>
                             <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для создания краткого содержания текста. Поддерживаются различные методы."></i>
                         </div>

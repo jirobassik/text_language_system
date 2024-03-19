@@ -10,11 +10,11 @@ class PySummarizer:
         self.auto_abstractor = AutoAbstractor()
         self.abstractable_doc = self.setting_auto_abs()
 
+    def __call__(self, text: str):
+        result_dict = self.auto_abstractor.summarize(text, self.abstractable_doc)
+        return ''.join([sentence.replace('\n', '') for sentence in result_dict["summarize_result"]])
+
     def setting_auto_abs(self):
         self.auto_abstractor.tokenizable_doc = SimpleTokenizer()
         self.auto_abstractor.delimiter_list = [".", "\n"]
         return TopNRankAbstractor()
-
-    def summarize_text(self, text: str):
-        result_dict = self.auto_abstractor.summarize(text, self.abstractable_doc)
-        return ''.join([sentence.replace('\n', '') for sentence in result_dict["summarize_result"]])

@@ -10,7 +10,7 @@ class ExtractivePlusSummarize:
     def __init__(self):
         self.text_normalizer = TextNormalizer(remove_punctation=True, remove_number=True)
 
-    def summarize_text(self, text: str):
+    def __call__(self, text: str):
         text_without_n = text
         list_sentence_tokenize = sent_tokenize(text_without_n)
         scores = self.__calculate_weight_sentences(text_without_n, list_sentence_tokenize)

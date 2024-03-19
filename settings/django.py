@@ -57,6 +57,7 @@ LOCAL_APPS = [
     'user_profile',
     'text_language',
     'language_app',
+    'summarize_app',
     'api_key',
 ]
 

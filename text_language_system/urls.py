@@ -26,6 +26,7 @@ urlpatterns = [
                        include('social_django.urls', namespace='social')),
                   path('', include('text_language.urls')),
                   path('language-detector/', include('language_app.urls')),
+                  path('summarize-text/', include('summarize_app.urls')),
                   path('api-key/', include('api_key.urls')),
                   path('__debug__/', include('debug_toolbar.urls')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
