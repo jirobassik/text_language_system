@@ -30,7 +30,8 @@
                     <button class="copy-button" onclick="copyToken()">Копировать токен</button>
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" name="detector" class="gen-button">{% if api_key %}Обновить
+                        <button type="submit" name="detector" class="gen-button" {% if block_update_but %}
+                                data-tooltip="Превышен лимит обновлений" disabled {% endif %}>{% if api_key %}Обновить
                             токен {% else %}Создать токен{% endif %}</button>
                     </form>
                 </div>

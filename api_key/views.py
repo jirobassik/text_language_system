@@ -5,6 +5,7 @@ from api_key.forms import ApiKeyForm
 from api_key.models import ApiKeyModel, generate_api_key
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
+from utilities.redis_com import check_limit, api_update_limit_check
 
 
 class ApiKeyView(LoginRequiredMixin, FormView):
@@ -16,6 +17,7 @@ class ApiKeyView(LoginRequiredMixin, FormView):
         context = super(ApiKeyView, self).get_context_data(**kwargs)
         context['key'] = self.get_api_key()
         context['max_throttle'] = settings.USER_DAY_THROTTLE
+        context['block_update_but'] = check_limit(self.request.user.pk)
         return context
 
     def form_valid(self, form):
@@ -29,6 +31,7 @@ class ApiKeyView(LoginRequiredMixin, FormView):
     def update_api_key(self):
         ApiKeyModel.objects.filter(user=self.request.user, is_deleted=False, is_expired=False).update(
             api_token=generate_api_key())
+        api_update_limit_check(self.request.user.pk)
 
     def get_api_key(self):
         try:

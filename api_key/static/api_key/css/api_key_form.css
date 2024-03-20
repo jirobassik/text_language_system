@@ -24,6 +24,31 @@
     cursor: pointer;
 }
 
-.copy-button:hover,.gen-button:hover  {
+.copy-button:hover, .gen-button:hover {
     background-color: grey;
+}
+
+.tooltip-btn {
+    position: relative;
+}
+
+.gen-button::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 20%;
+    left: 83%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: transparent;
+    color: black;
+    font-size: 14px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.gen-button:hover::after {
+    opacity: 1;
+    visibility: visible;
 }

@@ -1,13 +1,12 @@
 from django.db.models import TextChoices
 from django.http import HttpResponse
-from django.conf import settings
 from ninja import Schema, File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
 from text_proc.lang_mod.methods import methods
 from utilities.api.auth import ApiKey
-from utilities.api.custom_throttle import ApiTokenUserRateThrottle
+from utilities.api.setup_throttle import User60MinRateThrottle, User100PerDayRateThrottle
 from utilities.validators.api_file_validations import validate_api_file
 from utilities.validators.api_text_validators import validate_api_text
 from utilities.file_manager.file import FileManager
@@ -41,16 +40,6 @@ class LanguageDet(Schema):
 
 class LanguageDetFile(Schema):
     method: Methods = 'short_word'
-
-
-class User60MinRateThrottle(ApiTokenUserRateThrottle):
-    rate = f"{settings.USER_MIN_THROTTLE}/min"
-    scope = "minutes"
-
-
-class User100PerDayRateThrottle(ApiTokenUserRateThrottle):
-    rate = f"{settings.USER_DAY_THROTTLE}/day"
-    scope = "days"
 
 
 @api.post("/")

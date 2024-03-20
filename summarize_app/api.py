@@ -1,13 +1,12 @@
 from django.db.models import TextChoices
 from django.http import HttpResponse
-from django.conf import settings
 from ninja import Schema, File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
 from text_proc.sum_mod.methods import methods
 from utilities.api.auth import ApiKey
-from utilities.api.custom_throttle import ApiTokenUserRateThrottle
+from utilities.api.setup_throttle import User60MinRateThrottle, User100PerDayRateThrottle
 from utilities.validators.api_file_validations import validate_api_file
 from utilities.validators.api_text_validators import validate_api_text
 from utilities.file_manager.file import FileManager
@@ -25,7 +24,15 @@ def validation_errors(request, exc):
     return HttpResponse(exc, status=422)
 
 
-initial_text = '''I am living with a very welcoming host family. I have my own private bedroom, but we eat breakfast.'''
+initial_text = '''I am living with a very welcoming host family. I have my own private bedroom, but we eat breakfast, 
+lunch, and dinner together. On Sundays, we eat a big home-cooked paella for lunch. In Spain, lunch is usually the 
+biggest meal of the day. It's also very common for the people to take a midday nap right after a big meal. I am 
+actually just waking up from my nap right now! 
+
+On weekdays, I take classes at the local university. There, I met several native Spanish speakers. They have been 
+very kind and patient with me. At first, I struggled to comprehend their Spanish, but now I understand most of our 
+conversations. They have commented that my Spanish has improved a lot since we first met. Now, I am more confident to 
+use the language in other places like stores and restaurants. '''
 
 
 class Methods(TextChoices):
@@ -33,28 +40,17 @@ class Methods(TextChoices):
     py_sum = "py_sum"
 
 
-class LanguageDet(Schema):
+class Summarize(Schema):
     text: str = initial_text
     method: Methods = "extractive_plus"
 
 
-class LanguageDetFile(Schema):
+class SummarizeFile(Schema):
     method: Methods = "extractive_plus"
-
-
-class User60MinRateThrottle(ApiTokenUserRateThrottle):
-    rate = f"{settings.USER_MIN_THROTTLE}/min"
-    scope = "minutes"
-
-
-class User100PerDayRateThrottle(ApiTokenUserRateThrottle):
-    rate = f"{settings.USER_DAY_THROTTLE}/day"
-    scope = "days"
-
 
 @api.post("/")
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
-def summarize_api_text(request, lang_text_schem: LanguageDet):
+def summarize_api_text(request, lang_text_schem: Summarize):
     validate_api_text(lang_text_schem.text)
     res = methods.get(lang_text_schem.method.name)(lang_text_schem.text)
     return {"result": res}
@@ -62,7 +58,7 @@ def summarize_api_text(request, lang_text_schem: LanguageDet):
 
 @api.post("/file")
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
-def summarize_api_file(request, method: LanguageDetFile, file: UploadedFile = File(...)):
+def summarize_api_file(request, method: SummarizeFile, file: UploadedFile = File(...)):
     validate_api_file(file)
     res = methods.get(method.method.name)(FileManager.file_read(file))
     return {"result": res}
