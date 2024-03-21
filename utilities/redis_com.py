@@ -24,5 +24,4 @@ def check_limit(user):
 def delete_limit(user):
     key = f'user:{user}:update_limit'
     if cache.has_key(key):
-        print('yes')
         cache.delete(key)

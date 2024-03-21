@@ -10,13 +10,13 @@ class ExtractivePlusSummarize:
     def __init__(self):
         self.text_normalizer = TextNormalizer(remove_punctation=True, remove_number=True)
 
-    def __call__(self, text: str):
+    def __call__(self, text: str, num_sentences: int):
         text_without_n = text
         list_sentence_tokenize = sent_tokenize(text_without_n)
         scores = self.__calculate_weight_sentences(text_without_n, list_sentence_tokenize)
         sentence_score = zip(list_sentence_tokenize, scores)
         sorted_sentence_score = dict(sorted(sentence_score, key=lambda item: getitem(item, 1), reverse=True))
-        return ' '.join(list(sorted_sentence_score.keys())[:10])
+        return ' '.join(list(sorted_sentence_score.keys())[:num_sentences])
 
     def __calculate_weight_sentences(self, text: str, sent_tokenize_: list):
         list_words, list_sentences = self.text_normalizer(text), list(map(self.text_normalizer, sent_tokenize_))

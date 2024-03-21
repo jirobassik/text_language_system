@@ -1,6 +1,7 @@
 from django.db.models import TextChoices
 from django.http import HttpResponse
 from ninja import Schema, File
+from pydantic import Field
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
@@ -43,22 +44,25 @@ class Methods(TextChoices):
 class Summarize(Schema):
     text: str = initial_text
     method: Methods = "extractive_plus"
+    num_sentences: int = Field(default=10, ge=10, le=100)
 
 
 class SummarizeFile(Schema):
     method: Methods = "extractive_plus"
+    num_sentences: int = Field(default=10, ge=10, le=100)
+
 
 @api.post("/")
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
-def summarize_api_text(request, lang_text_schem: Summarize):
-    validate_api_text(lang_text_schem.text)
-    res = methods.get(lang_text_schem.method.name)(lang_text_schem.text)
+def summarize_api_text(request, sum_text_schem: Summarize):
+    validate_api_text(sum_text_schem.text)
+    res = methods.get(sum_text_schem.method.name)(sum_text_schem.text, sum_text_schem.num_sentences)
     return {"result": res}
 
 
 @api.post("/file")
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
-def summarize_api_file(request, method: SummarizeFile, file: UploadedFile = File(...)):
+def summarize_api_file(request, sum_text_file_schem: SummarizeFile, file: UploadedFile = File(...)):
     validate_api_file(file)
-    res = methods.get(method.method.name)(FileManager.file_read(file))
+    res = methods.get(sum_text_file_schem.method.name)(FileManager.file_read(file), sum_text_file_schem.num_sentences)
     return {"result": res}

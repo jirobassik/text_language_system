@@ -1,13 +1,41 @@
 {% extends 'layout.html' %}
 {% load static %}
-{#{% block style %}{% static 'language_app/css/language_form.css' %}{% endblock %}#}
-{#{% block style2 %}{% static 'user_profile/css/messages.css' %}{% endblock %}#}
+{% block style %}{% static 'summarize_app/css/summarize_form.css' %}{% endblock %}
+{% block style2 %}{% static 'user_profile/css/messages.css' %}{% endblock %}
 {% block title %}Summarize Text{% endblock %}
 {% block content_main %}
     <div class="language-detector">
         <form method="POST" enctype="multipart/form-data" class="language-form">
             {% csrf_token %}
-            {% include 'common/text_file_method_form.html' %}
+            <div class="form-input">
+                <div class="input-grid">
+                    {{ form.text.errors }}
+                    {{ form.text.label_tag }}
+                    {{ form.text.help_text }}
+                    {{ form.text }}
+                    <div class="file-and-method-grid">
+                        <div class="file-input">
+                            {{ form.file.errors }}
+                            {{ form.file.label_tag }}
+                            {{ form.file }}
+                            {{ form.file.help_text }}
+                        </div>
+                        <div class="num-sentences">
+                            {{ form.num_sentences.errors }}
+                            {{ form.num_sentences.label_tag }}
+                            {{ form.num_sentences }}
+                            {{ form.num_sentences.help_text }}
+                        </div>
+                        <div class="method-select">
+                            {{ form.method.errors }}
+                            {{ form.method.label_tag }}
+                            {{ form.method }}
+                            {{ form.method.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" name="detector">{{ button_name }}</button>
+            </div>
             {% if result %}
                 {% include 'common/result.html' %}
             {% endif %}
