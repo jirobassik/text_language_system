@@ -1,19 +1,26 @@
-from django.core.validators import FileExtensionValidator, MaxValueValidator, MaxLengthValidator, MinLengthValidator
+from django.core.validators import (
+    FileExtensionValidator,
+    MaxValueValidator,
+    MaxLengthValidator,
+    MinLengthValidator,
+)
 from django import forms
 from django.conf import settings
 import magic
 
 from utilities.file_manager.file import FileManager
 
+
 class CleanMixin:
-    def clean(self, x):
+    def clean(self, x: object) -> object:
         try:
             return len(FileManager().file_read(x))
         except TypeError:
-            raise forms.ValidationError('Не удалось прочитать файл')
+            raise forms.ValidationError("Не удалось прочитать файл")
+
 
 class ContentValidator(FileExtensionValidator):
-    message = 'Неподдерживаемый тип файла'
+    message = "Неподдерживаемый тип файла"
 
     def __call__(self, value):
         if not self.validate_content(value):
@@ -27,7 +34,7 @@ class ContentValidator(FileExtensionValidator):
 
 
 class MaxFileSizeValidation(MaxValueValidator):
-    message = 'Размер файла должен быть не более 2 мб'
+    message = "Размер файла должен быть не более 2 мб"
 
     def clean(self, x):
         return x.size
@@ -35,6 +42,7 @@ class MaxFileSizeValidation(MaxValueValidator):
 
 class MaxLengthFileValidator(CleanMixin, MaxLengthValidator):
     pass
+
 
 class MinLengthFileValidator(CleanMixin, MinLengthValidator):
     pass

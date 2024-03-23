@@ -4,9 +4,9 @@ from language_app.models import LanguagePoaModel
 
 @admin.register(LanguagePoaModel)
 class LanguagePoaAdmin(admin.ModelAdmin):
-    list_display = ['language', 'poa_snippet']
-    search_fields = ['language']
-    sortable_by = ['language']
+    list_display = ["language", "poa_snippet"]
+    search_fields = ["language"]
+    sortable_by = ["language"]
 
     @admin.display(description="Name")
     def poa_snippet(self, obj):
@@ -15,4 +15,3 @@ class LanguagePoaAdmin(admin.ModelAdmin):
             return f"{obj.poa_text[:max_length]}..."
         else:
             return f"{obj.poa_text}"
-

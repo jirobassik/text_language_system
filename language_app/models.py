@@ -7,9 +7,9 @@ class LanguagePoaModel(models.Model):
     poa_text = models.TextField(max_length=6000, validators=(MinLengthValidator(3000),))
 
     class Meta:
-        ordering = ['language']
-        indexes = [models.Index(fields=['language'])]
-        verbose_name_plural = 'ПОЯ тексты'
+        ordering = ["language"]
+        indexes = [models.Index(fields=["language"])]
+        verbose_name_plural = "ПОЯ тексты"
 
     def __str__(self):
         return self.language

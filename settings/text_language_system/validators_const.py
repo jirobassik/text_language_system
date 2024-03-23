@@ -1,9 +1,9 @@
 # File const
 VALID_MAX_FILE_SIZE = 2097152
-VALID_MAX_FILE_LENGTH_TEXT = 3500
+VALID_MAX_FILE_LENGTH_TEXT = 21000
 VALID_MIN_FILE_LENGTH_TEXT = 50
-VALID_EXTENSIONS_FILE = ('docx', 'pdf', 'txt')
-VALID_CONTENT_FILE = ('application/pdf', 'application/zip', 'text/plain')
+VALID_EXTENSIONS_FILE = ("docx", "pdf", "txt")
+VALID_CONTENT_FILE = ("application/pdf", "application/zip", "text/plain")
 
 # API file const
 API_VALID_MAX_FILE_SIZE = 2097152

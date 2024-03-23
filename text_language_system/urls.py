@@ -14,19 +14,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('account/', include('user_profile.urls'), name='account'),
-                  path('social-auth/',
-                       include('social_django.urls', namespace='social')),
-                  path('', include('text_language.urls')),
-                  path('language-detector/', include('language_app.urls')),
-                  path('summarize-text/', include('summarize_app.urls')),
-                  path('api-key/', include('api_key.urls')),
-                  path('__debug__/', include('debug_toolbar.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("account/", include("user_profile.urls"), name="account"),
+    path("social-auth/", include("social_django.urls", namespace="social")),
+    path("", include("text_language.urls")),
+    path("language-detector/", include("language_app.urls")),
+    path("summarize-text/", include("summarize_app.urls")),
+    path("api-key/", include("api_key.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

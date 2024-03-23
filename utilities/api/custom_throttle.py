@@ -20,7 +20,7 @@ class ApiTokenUserRateThrottle(SimpleRateThrottle):
     def get_cache_key(self, request: HttpRequest) -> Optional[str]:
         if request.user and request.user.is_authenticated:
             ident = request.user.pk
-        elif key := request.headers.get('X-Api-Key'):
+        elif key := request.headers.get("X-Api-Key"):
             try:
                 ident = ApiKeyModel.objects.get(api_token=key).user.pk
             except ApiKeyModel.DoesNotExist:

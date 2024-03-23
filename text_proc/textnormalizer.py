@@ -1,6 +1,6 @@
 import re
-from string import punctuation
 from collections import namedtuple
+from string import punctuation
 
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -8,14 +8,16 @@ from toolz import pipe
 
 
 class TextProc:
-    __slots__ = ('text',)
+    __slots__ = ("text",)
 
     def __init__(self, text):
         self.text = text
         self.__text_proc()
 
     def __remove_urls(self):
-        pattern = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+        pattern = (
+            r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+        )
         self.text = re.sub(pattern, "", self.text)
         return self
 
@@ -32,20 +34,33 @@ class TextProc:
 
 
 class TextNormalizer:
-    __slots__ = ('text_pre_proc', 'proc_text', 'world_len', 'priority_name_using', 'methods')
+    __slots__ = ("text_pre_proc", "proc_text", "world_len", "priority_name_using", "methods")
 
-    def __init__(self, remove_punctation=True, lowercase=False, lemmatize=False, remove_number=False,
-                 remove_world_ge=False, join_text=False, text_pre_proc=True, world_len=3):
+    def __init__(
+        self,
+        remove_punctation=True,
+        lowercase=False,
+        lemmatize=False,
+        remove_number=False,
+        remove_world_ge=False,
+        join_text=False,
+        text_pre_proc=True,
+        world_len=3,
+    ):
         self.text_pre_proc = text_pre_proc
         self.proc_text = TextProc
         self.world_len = self.define_world_len(world_len)
-        self.priority_name_using = namedtuple('priority_name', 'priority name using')
-        self.methods = {self.priority_name_using(1, 'remove_punctation', remove_punctation): self.remove_punctation,
-                        self.priority_name_using(1, 'lowercase', lowercase): self.lowercase,
-                        self.priority_name_using(1, 'lemmatize', lemmatize): self.lemmatize,
-                        self.priority_name_using(1, 'remove_number', remove_number): self.remove_number,
-                        self.priority_name_using(2, 'remove_world_ge', remove_world_ge): self.remove_world_ge,
-                        self.priority_name_using(3, 'join_text', join_text): self.join_text}
+        self.priority_name_using = namedtuple("priority_name", "priority name using")
+        self.methods = {
+            self.priority_name_using(
+                1, "remove_punctation", remove_punctation
+            ): self.remove_punctation,
+            self.priority_name_using(1, "lowercase", lowercase): self.lowercase,
+            self.priority_name_using(1, "lemmatize", lemmatize): self.lemmatize,
+            self.priority_name_using(1, "remove_number", remove_number): self.remove_number,
+            self.priority_name_using(2, "remove_world_ge", remove_world_ge): self.remove_world_ge,
+            self.priority_name_using(3, "join_text", join_text): self.join_text,
+        }
 
     def __call__(self, text, *args, **kwargs):
         filter_dict = self.define_proc_methods()
@@ -55,15 +70,21 @@ class TextNormalizer:
     def define_proc_methods(self):
         # def_methods = dict(sorted(filter(self.filter_dict_meth, self.methods.items()),
         #                           key=lambda pair: pair[0].priority))
-        if not (def_methods := dict(sorted(filter(self.filter_dict_meth, self.methods.items()),
-                                           key=lambda pair: pair[0].priority))):
-            raise ValueError('No one methods been defined')
+        if not (
+            def_methods := dict(
+                sorted(
+                    filter(self.filter_dict_meth, self.methods.items()),
+                    key=lambda pair: pair[0].priority,
+                )
+            )
+        ):
+            raise ValueError("No one methods been defined")
         return def_methods
 
     @staticmethod
     def define_world_len(world_len):
         if world_len <= 0:
-            raise ValueError('World len must be greater 0')
+            raise ValueError("World len must be greater 0")
         return world_len
 
     def define_text(self, text):
@@ -75,7 +96,7 @@ class TextNormalizer:
 
     @staticmethod
     def remove_punctation(token_text):
-        table = str.maketrans('', '', punctuation)
+        table = str.maketrans("", "", punctuation)
         return [word.translate(table) for word in token_text if word not in punctuation]
 
     @staticmethod
@@ -96,4 +117,4 @@ class TextNormalizer:
 
     @staticmethod
     def join_text(token_text):
-        return ''.join(token_text)
+        return "".join(token_text)

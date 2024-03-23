@@ -1,9 +1,16 @@
 from pathlib import Path
+
 from django.conf import settings
 from ninja.errors import ValidationError
-from utilities.validators.file_validations import ContentValidator, MaxFileSizeValidation, FileExtensionValidator, \
-    MinLengthFileValidator, MaxLengthFileValidator
+
 from utilities.validators.base_validator import ApiBaseValidator
+from utilities.validators.file_validations import (
+    ContentValidator,
+    MaxFileSizeValidation,
+    FileExtensionValidator,
+    MinLengthFileValidator,
+    MaxLengthFileValidator,
+)
 
 
 class ApiContentValidator(ContentValidator):
@@ -17,10 +24,7 @@ class ApiFileExtensionValidator(FileExtensionValidator):
 
     def __call__(self, value):
         extension = Path(value.name).suffix[1:].lower()
-        if (
-                self.allowed_extensions is not None
-                and extension not in self.allowed_extensions
-        ):
+        if self.allowed_extensions is not None and extension not in self.allowed_extensions:
             raise ValidationError(self.message)
 
 
@@ -29,11 +33,11 @@ class ApiMaxFileSizeValidation(MaxFileSizeValidation, ApiBaseValidator):
 
 
 class ApiMaxLengthFileValidator(MaxLengthFileValidator, ApiBaseValidator):
-    message = f'Длина текста должна быть меньше {settings.API_VALID_MAX_FILE_LENGTH_TEXT}'
+    message = f"Длина текста должна быть меньше {settings.API_VALID_MAX_FILE_LENGTH_TEXT}"
 
 
 class ApiMinLengthFileValidator(MinLengthFileValidator, ApiBaseValidator):
-    message = f'Длина текста должна быть больше {settings.API_VALID_MIN_FILE_LENGTH_TEXT}'
+    message = f"Длина текста должна быть больше {settings.API_VALID_MIN_FILE_LENGTH_TEXT}"
 
 
 api_extension_validation = ApiFileExtensionValidator(settings.API_VALID_EXTENSIONS_FILE)
@@ -44,7 +48,12 @@ api_min_length_file_text = ApiMinLengthFileValidator(settings.API_VALID_MIN_FILE
 
 
 def validate_api_file(file):
-    validators = (api_max_size_validation, api_content_validation, api_extension_validation, api_min_length_file_text,
-                  api_max_length_file_text)
+    validators = (
+        api_max_size_validation,
+        api_content_validation,
+        api_extension_validation,
+        api_min_length_file_text,
+        api_max_length_file_text,
+    )
     for validator in validators:
         validator(file)

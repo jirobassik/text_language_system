@@ -10,6 +10,6 @@ class DocxReader:
 
         for paragraph in doc.paragraphs:
             text_content.append(paragraph.text)
-        text = '\n'.join(text_content)
-        print('docx', text)
+        text = "\n".join(text_content)
+        print("docx", text)
         return text

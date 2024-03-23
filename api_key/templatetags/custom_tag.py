@@ -1,4 +1,5 @@
 from django import template
+
 from utilities.api.value_throttle import get_throttle_value, get_throttle_duration
 
 register = template.Library()

@@ -3,55 +3,73 @@ from django.contrib.auth.models import User
 
 
 class RegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
-    password2 = forms.CharField(widget=forms.PasswordInput, label='Повторите пароль')
-    email = forms.EmailField(required=True, label='Почта')
+    password = forms.CharField(widget=forms.PasswordInput, label="Пароль")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Повторите пароль")
+    email = forms.EmailField(required=True, label="Почта")
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'email']
+        fields = ["username", "first_name", "email"]
 
     def clean_password2(self):
         cd = self.cleaned_data
-        password2_data = cd['password2']
-        if cd['password'] != password2_data:
-            self.add_error('password', forms.ValidationError('Пароли не совпадают'))
+        password2_data = cd["password2"]
+        if cd["password"] != password2_data:
+            self.add_error("password", forms.ValidationError("Пароли не совпадают"))
         return password2_data
 
     def clean_email(self):
-        cd = self.cleaned_data['email']
-        if User.objects.filter(email=cd).exists() and not self.has_error('username'):
-            self.add_error('username',
-                           forms.ValidationError('Неправильное сочетание имени пользователя, пароля или почты'))
+        cd = self.cleaned_data["email"]
+        if User.objects.filter(email=cd).exists() and not self.has_error("username"):
+            self.add_error(
+                "username",
+                forms.ValidationError(
+                    "Неправильное сочетание имени пользователя, пароля или почты"
+                ),
+            )
         return cd
 
     def clean_username(self):
-        cd = self.cleaned_data['username']
+        cd = self.cleaned_data["username"]
         if User.objects.filter(username=cd).exists():
-            self.add_error('username',
-                           forms.ValidationError('Неправильное сочетание имени пользователя, пароля или почты'))
+            self.add_error(
+                "username",
+                forms.ValidationError(
+                    "Неправильное сочетание имени пользователя, пароля или почты"
+                ),
+            )
         return cd
 
 
 class EditForm(forms.ModelForm):
-    email = forms.EmailField(required=True, label='Почта')
+    email = forms.EmailField(required=True, label="Почта")
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'email']
+        fields = ["username", "first_name", "email"]
 
     def clean_email(self):
         current_user = self.instance
-        cd = self.cleaned_data['email']
-        if User.objects.filter(email=cd).exclude(id=current_user.id).exists() and not self.has_error('username'):
-            self.add_error('username',
-                           forms.ValidationError('Неправильное сочетание имени пользователя, пароля или почты'))
+        cd = self.cleaned_data["email"]
+        if User.objects.filter(email=cd).exclude(
+            id=current_user.id
+        ).exists() and not self.has_error("username"):
+            self.add_error(
+                "username",
+                forms.ValidationError(
+                    "Неправильное сочетание имени пользователя, пароля или почты"
+                ),
+            )
         return cd
 
     def clean_username(self):
         current_user = self.instance
-        cd = self.cleaned_data['username']
+        cd = self.cleaned_data["username"]
         if User.objects.filter(username=cd).exclude(id=current_user.id).exists():
-            self.add_error('username',
-                           forms.ValidationError('Неправильное сочетание имени пользователя, пароля или почты'))
+            self.add_error(
+                "username",
+                forms.ValidationError(
+                    "Неправильное сочетание имени пользователя, пароля или почты"
+                ),
+            )
         return cd

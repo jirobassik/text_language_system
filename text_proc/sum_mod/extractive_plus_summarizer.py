@@ -5,7 +5,7 @@ from text_proc.textnormalizer import TextNormalizer
 
 
 class ExtractivePlusSummarize:
-    __slots__ = ('text_normalizer',)
+    __slots__ = ("text_normalizer",)
 
     def __init__(self):
         self.text_normalizer = TextNormalizer(remove_punctation=True, remove_number=True)
@@ -15,17 +15,22 @@ class ExtractivePlusSummarize:
         list_sentence_tokenize = sent_tokenize(text_without_n)
         scores = self.__calculate_weight_sentences(text_without_n, list_sentence_tokenize)
         sentence_score = zip(list_sentence_tokenize, scores)
-        sorted_sentence_score = dict(sorted(sentence_score, key=lambda item: getitem(item, 1), reverse=True))
-        return ' '.join(list(sorted_sentence_score.keys())[:num_sentences])
+        sorted_sentence_score = dict(
+            sorted(sentence_score, key=lambda item: getitem(item, 1), reverse=True)
+        )
+        return " ".join(list(sorted_sentence_score.keys())[:num_sentences])
 
     def __calculate_weight_sentences(self, text: str, sent_tokenize_: list):
-        list_words, list_sentences = self.text_normalizer(text), list(map(self.text_normalizer, sent_tokenize_))
+        list_words, list_sentences = self.text_normalizer(text), list(
+            map(self.text_normalizer, sent_tokenize_)
+        )
         scores = []
         for sentences in list_sentences:
             score = 0
             for word in sentences:
-                score += self.__term_frequency(sentences, word) * \
-                         self.__inverse_document_frequency(word, list_words, list_sentences)
+                score += self.__term_frequency(sentences, word) * self.__inverse_document_frequency(
+                    word, list_words, list_sentences
+                )
             scores.append(score)
         return scores
 
@@ -38,8 +43,10 @@ class ExtractivePlusSummarize:
         return term_freq
 
     def __inverse_document_frequency(self, word: str, list_words: list, list_sentences: list):
-        return 0.5 * (1 + self.__term_frequency(list_words, word) / self.__max_frequency(list_sentences, word)) * \
-            log(len(list_sentences) / 1)
+        doc_freq = 0.5 * (
+            1 + self.__term_frequency(list_words, word) / self.__max_frequency(list_sentences, word)
+        )
+        return doc_freq * log(len(list_sentences) / 1)
 
     def __max_frequency(self, list_sentences: list, word: str):
         term_frequency = 0

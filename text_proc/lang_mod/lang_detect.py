@@ -6,4 +6,4 @@ def lang_detect(text):
     try:
         return detect(text)
     except LangDetectException:
-        return 'Не удалось определить язык'
+        return "Не удалось определить язык"
