@@ -13,7 +13,7 @@
                         <p class="card-text">{{ api_key.api_token }}</p>
                         {% get_throttle_value_html api_key.user.pk as token_throttle %}
                         {% if token_throttle %}
-                            <p class="card-text">Можно использовать {{ token_throttle }} раз</p>
+                            <p class="card-text">Можно использовать {{ token_throttle }} р.</p>
                         {% elif token_throttle <= 0 %}
                             {% get_throttle_value_duration_html api_key.user.pk as duration_throttle %}
                             <p class="card-text">Вы использовали все токены,

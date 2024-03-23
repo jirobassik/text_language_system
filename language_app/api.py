@@ -1,14 +1,15 @@
 from django.db.models import TextChoices
 from django.http import HttpResponse
+from django.conf import settings
 from ninja import Schema, File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
+from pydantic import Field
 from text_proc.lang_mod.methods import methods
 from utilities.api.auth import ApiKey
 from utilities.api.setup_throttle import User60MinRateThrottle, User100PerDayRateThrottle
 from utilities.validators.api_file_validations import validate_api_file
-from utilities.validators.api_text_validators import validate_api_text
 from utilities.file_manager.file import FileManager
 from ninja_extra.throttling import throttle
 
@@ -34,18 +35,19 @@ class Methods(TextChoices):
 
 
 class LanguageDet(Schema):
-    text: str = initial_text
+    text: str = Field(default=initial_text, min_length=settings.API_VALID_MIN_FORM_LENGTH_TEXT,
+                      max_length=settings.API_VALID_MAX_FORM_LENGTH_TEXT)
     method: Methods = 'short_word'
 
 
 class LanguageDetFile(Schema):
     method: Methods = 'short_word'
+    file: UploadedFile = File(...)
 
 
 @api.post("/")
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
 def lang_detect_api_text(request, lang_text_schem: LanguageDet):
-    validate_api_text(lang_text_schem.text)
     res = methods.get(lang_text_schem.method.name)(lang_text_schem.text)
     return {"result": res}
 
