@@ -1,13 +1,10 @@
 from ninja.security import APIKeyHeader
 
-from api_key.models import ApiKeyModel
+from utilities.api.compare_tokens import CompareTokens
 
 
 class ApiKey(APIKeyHeader):
     param_name = "X-API-Key"
 
     def authenticate(self, request, key):
-        try:
-            return ApiKeyModel.objects.filter(api_token=key, is_expired=False, is_deleted=False)
-        except ApiKeyModel.DoesNotExist:
-            pass
+        return CompareTokens(input_token=key)()

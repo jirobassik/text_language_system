@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.cache import cache
 
 
-def api_update_limit_check(user):
+def api_delete_limit_check(user):
     key = f"user:{user}:update_limit"
     value = cache.get(key)
     if value is None:
@@ -11,14 +11,14 @@ def api_update_limit_check(user):
         cache.incr(key)
 
 
-def get_update_limit(user):
+def get_delete_limit(user):
     key = f"user:{user}:update_limit"
     value = cache.get(key)
     return value if value is not None else 0
 
 
 def check_limit(user):
-    return True if get_update_limit(user) >= settings.API_UPDATE_LIMIT else False
+    return True if get_delete_limit(user) >= settings.API_UPDATE_LIMIT else False
 
 
 def delete_limit(user):

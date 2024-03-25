@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block style %}{% static 'api_key/css/api_key_form.css' %}{% endblock %}
+{% block title %}Delete api key{% endblock %}
+{% block content_main %}
+    <div class="card">
+        <form method="post">{% csrf_token %}
+            <div class="card-body">
+                <h5 class="card-title">Удаление API ключа</h5>
+                <p class="card-text">Вы действительно хотите удалить ключ?</p>
+                <p class="card-text">Вы можете создать его в будущем</p>
+            </div>
+            <div class="card-footer bg-transparent">
+                {{ form }}
+                <button type="submit" value="Confirm" class="gen-button" {% if block_update_but %}
+                        data-tooltip="Превышен лимит удалений" disabled {% endif %}>Удалить ключ</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

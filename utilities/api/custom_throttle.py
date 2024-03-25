@@ -3,7 +3,7 @@ from typing import Optional
 from django.http import HttpRequest
 from ninja_extra.throttling import SimpleRateThrottle
 
-from api_key.models import ApiKeyModel
+from utilities.api.compare_tokens import CompareTokens
 
 
 class ApiTokenUserRateThrottle(SimpleRateThrottle):
@@ -21,9 +21,9 @@ class ApiTokenUserRateThrottle(SimpleRateThrottle):
         if request.user and request.user.is_authenticated:
             ident = request.user.pk
         elif key := request.headers.get("X-Api-Key"):
-            try:
-                ident = ApiKeyModel.objects.get(api_token=key).user.pk
-            except ApiKeyModel.DoesNotExist:
+            if ident_token := CompareTokens(input_token=key)():
+                ident = ident_token
+            else:
                 ident = self.get_ident(request)
         else:
             ident = self.get_ident(request)

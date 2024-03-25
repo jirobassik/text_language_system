@@ -13,7 +13,7 @@ def default_expired_at():
 
 
 class ApiKeyModel(models.Model):
-    api_token = models.CharField("API ключ", default=generate_api_key, editable=False, unique=True)
+    api_token = models.CharField("API ключ", editable=False, unique=True)
     created_at = models.DateTimeField(
         "Время добавления", auto_created=True, editable=False, auto_now_add=True
     )
@@ -25,7 +25,7 @@ class ApiKeyModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
 
     def __str__(self):
-        return self.api_token
+        return "API токен хэширован. Можно только удалить и создать новый"
 
     class Meta:
         ordering = ["created_at"]
