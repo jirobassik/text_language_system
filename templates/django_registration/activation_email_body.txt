@@ -1,0 +1,4 @@
+Здравствуйте, {{ user.username }}.
+Для активации учетной записи пройдите по ссылке:
+https://{{ site }}/account/activate/{{ activation_key }}/
+Дней до окончания активации: {{ expiration_days }}

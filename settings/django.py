@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
     "ninja_extra",
     "huey.contrib.djhuey",
     "debug_toolbar",
+    "django_registration",
 ]
 
 LOCAL_APPS = [
@@ -207,6 +208,7 @@ LOGIN_REDIRECT_URL = "text_language"
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
 
+ACCOUNT_ACTIVATION_DAYS = 3
 EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"  # TODO надо будет изменить на настоящую почту
 )
