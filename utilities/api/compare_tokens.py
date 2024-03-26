@@ -9,7 +9,7 @@ class CompareTokens:
     def __call__(self, *args, **kwargs):
         try:
             return self.__check_token()
-        except (ApiKeyModel.DoesNotExist, IndexError):
+        except (ApiKeyModel.DoesNotExist, IndexError, AttributeError):
             pass
 
     def __get_api_key_obj(self):
