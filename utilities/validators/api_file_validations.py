@@ -3,7 +3,7 @@ from pathlib import Path
 from django.conf import settings
 from ninja.errors import ValidationError
 
-from utilities.validators.base_validator import ApiBaseValidator
+from utilities.validators.base_validator import ApiBaseValidator, ApiCleanMixin
 from utilities.validators.file_validations import (
     ContentValidator,
     MaxFileSizeValidation,
@@ -14,6 +14,7 @@ from utilities.validators.file_validations import (
 
 
 class ApiContentValidator(ContentValidator):
+    message = "Unsupported file type"
 
     def __call__(self, value):
         if not self.validate_content(value):
@@ -21,6 +22,7 @@ class ApiContentValidator(ContentValidator):
 
 
 class ApiFileExtensionValidator(FileExtensionValidator):
+    message = "Unsupported file extension"
 
     def __call__(self, value):
         extension = Path(value.name).suffix[1:].lower()
@@ -29,15 +31,15 @@ class ApiFileExtensionValidator(FileExtensionValidator):
 
 
 class ApiMaxFileSizeValidation(MaxFileSizeValidation, ApiBaseValidator):
-    pass
+    message = "The file size should be no more than 2 MB"
 
 
-class ApiMaxLengthFileValidator(MaxLengthFileValidator, ApiBaseValidator):
-    message = f"Длина текста должна быть меньше {settings.API_VALID_MAX_FILE_LENGTH_TEXT}"
+class ApiMaxLengthFileValidator(ApiCleanMixin, MaxLengthFileValidator, ApiBaseValidator):
+    message = f"The length of the text should be less {settings.API_VALID_MAX_FILE_LENGTH_TEXT}"
 
 
-class ApiMinLengthFileValidator(MinLengthFileValidator, ApiBaseValidator):
-    message = f"Длина текста должна быть больше {settings.API_VALID_MIN_FILE_LENGTH_TEXT}"
+class ApiMinLengthFileValidator(ApiCleanMixin, MinLengthFileValidator, ApiBaseValidator):
+    message = f"The length of the text should be longer {settings.API_VALID_MIN_FILE_LENGTH_TEXT}"
 
 
 api_extension_validation = ApiFileExtensionValidator(settings.API_VALID_EXTENSIONS_FILE)

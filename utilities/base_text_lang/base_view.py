@@ -15,7 +15,7 @@ class BaseTextProcView(FormView):
 
     @staticmethod
     def choose_input(file, text):
-        return FileManager.file_read(file) if file else text
+        return FileManager().file_read(file) if file else text
 
 
 class BaseTextFileView(BaseTextProcView):

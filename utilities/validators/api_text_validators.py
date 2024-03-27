@@ -5,11 +5,11 @@ from utilities.validators.base_validator import ApiBaseValidator
 
 
 class ApiMinLengthValidator(MinLengthValidator, ApiBaseValidator):
-    message = f"Длина текста должна быть больше {settings.API_VALID_MIN_FORM_LENGTH_TEXT}"
+    message = f"The length of the text should be longer {settings.API_VALID_MIN_FORM_LENGTH_TEXT}"
 
 
 class ApiMaxLengthValidator(MaxLengthValidator, ApiBaseValidator):
-    message = f"Длина текста должна быть не больше {settings.API_VALID_MIN_FORM_LENGTH_TEXT}"
+    message = f"The length of the text should not be more than {settings.API_VALID_MIN_FORM_LENGTH_TEXT}"
 
 
 api_max_length_validation = ApiMaxLengthValidator(settings.API_VALID_MAX_FORM_LENGTH_TEXT)

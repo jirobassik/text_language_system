@@ -6,9 +6,8 @@ from django.core.validators import (
 )
 from django import forms
 from django.conf import settings
-import magic
-
 from utilities.file_manager.file import FileManager
+from utilities.file_manager.file_type import file_type
 
 
 class CleanMixin:
@@ -21,15 +20,14 @@ class CleanMixin:
 
 class ContentValidator(FileExtensionValidator):
     message = "Неподдерживаемый тип файла"
+    code = "invalid_content"
 
     def __call__(self, value):
         if not self.validate_content(value):
             raise forms.ValidationError(self.message)
 
     def validate_content(self, file):
-        file_object = file
-        file_mime_type = magic.from_buffer(file_object.read(1024), mime=True)
-        file_object.seek(0)
+        file_mime_type = file_type(file)
         return file_mime_type in self.allowed_extensions
 
 
