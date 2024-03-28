@@ -5,7 +5,7 @@ from api_key.models import ApiKeyModel
 from utilities.redis_com import delete_limit
 
 
-@db_periodic_task(crontab(minute="*/1"))
+@db_periodic_task(crontab(minute="*/1"), priority=100)
 def add_response_api_converter():
     rows_updated = ApiKeyModel.objects.filter(
         expired_at__lt=timezone.now(), is_expired=False, is_deleted=False

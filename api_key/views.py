@@ -53,6 +53,10 @@ class ApiKeyDeleteView(LoginRequiredMixin, DeleteView):
         context["block_update_but"] = check_limit(self.request.user.pk)
         return context
 
+    def get_object(self, queryset=None):
+        queryset = self.model.objects.filter(user=self.request.user)
+        return super().get_object(queryset)
+
     def form_valid(self, form):
         success_url = self.get_success_url()
         self.object.is_deleted = True

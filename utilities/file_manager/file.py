@@ -31,5 +31,7 @@ class FileManager:
 
 
 class ApiFIleManager(FileManager):
+    error_message = "Failed to read file"
+
     def txt_read_error(self):
         return errors.ValidationError(self.error_message)

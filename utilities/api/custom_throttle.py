@@ -18,9 +18,7 @@ class ApiTokenUserRateThrottle(SimpleRateThrottle):
     scope = "user"
 
     def get_cache_key(self, request: HttpRequest) -> Optional[str]:
-        if request.user and request.user.is_authenticated:
-            ident = request.user.pk
-        elif key := request.headers.get("X-Api-Key"):
+        if key := request.headers.get("X-Api-Key"):
             if ident_token := CompareTokens(input_token=key)():
                 ident = ident_token
             else:

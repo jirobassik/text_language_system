@@ -12,4 +12,4 @@ class ApiTokenAdmin(admin.ModelAdmin):
         "is_expired",
         "user",
     ]
-    ordering = ["-created_at"]
+    ordering = ["is_deleted", "is_expired", "-created_at"]
