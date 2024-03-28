@@ -3,9 +3,10 @@ from utilities.base_text_lang.base_view import BaseTextProcView
 
 from summarize_app.forms import SummarizeForm
 from text_proc.sum_mod.methods import methods
+from utilities.base_text_lang.mixins import HsetMixin
 
 
-class SummarizeView(BaseTextProcView):
+class SummarizeView(BaseTextProcView, HsetMixin):
     template_name = "summarize_app/summarize_form.html"
     form_class = SummarizeForm
     success_url = reverse_lazy("summarize_view")
@@ -19,8 +20,13 @@ class SummarizeView(BaseTextProcView):
     def setup_input_context(self, file, text, method, num_sentences):
         choose_input_text = self.choose_input(file, text)
         context = self.get_context_data()
-        context["result"] = self.get_method().get(method)(choose_input_text, num_sentences)
+        context["result"] = self.gen_result(method, choose_input_text, num_sentences)
         return context
+
+    def gen_result(self, method, choose_input_text, num_sentences):
+        result = self.get_method().get(method)(choose_input_text, num_sentences)
+        self.set_hset(self.request.session.session_key, result)
+        return result
 
     @staticmethod
     def get_cleaned_text_file_method(form):

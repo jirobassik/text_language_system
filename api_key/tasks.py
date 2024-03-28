@@ -2,7 +2,7 @@ from django.utils import timezone
 from huey import crontab
 from huey.contrib.djhuey import db_periodic_task
 from api_key.models import ApiKeyModel
-from utilities.redis_com import delete_limit
+from utilities.redis_com.sub_commands.delete_limit import delete_limit
 
 
 @db_periodic_task(crontab(minute="*/1"), priority=100)

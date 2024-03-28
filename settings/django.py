@@ -66,6 +66,7 @@ LOCAL_APPS = [
     "language_app",
     "summarize_app",
     "api_key",
+    "file_view",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -135,6 +136,8 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 CONN_MAX_AGE = 20  # The lifetime of a database connection
 

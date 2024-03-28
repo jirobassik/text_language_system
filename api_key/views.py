@@ -7,7 +7,7 @@ from api_key.forms import ApiKeyForm
 from api_key.models import ApiKeyModel
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
-from utilities.redis_com import check_limit, api_delete_limit_check
+from utilities.redis_com.sub_commands.delete_limit import check_limit, api_delete_limit_check
 from utilities.api.gen_api_key import generate_api_key
 
 

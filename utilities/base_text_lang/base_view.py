@@ -1,9 +1,9 @@
 from django.views.generic import FormView
 
 from utilities.file_manager.file import FileManager
+from utilities.base_text_lang.mixins import HsetMixin
 
-
-class BaseTextProcView(FormView):
+class BaseTextProcView(FormView, HsetMixin):
     button_name = ""
 
     def get_context_data(self, **kwargs):
@@ -27,8 +27,13 @@ class BaseTextFileView(BaseTextProcView):
     def setup_input_context(self, file, text):
         choose_input_text = self.choose_input(file, text)
         context = self.get_context_data()
-        context["result"] = self.get_method()(choose_input_text)
+        context["result"] = self.gen_result(choose_input_text)
         return context
+
+    def gen_result(self, choose_input_text):
+        result = self.get_method()(choose_input_text)
+        self.set_hset(self.request.session.session_key, result)
+        return result
 
     @staticmethod
     def get_cleaned_text_file(form):
@@ -37,7 +42,7 @@ class BaseTextFileView(BaseTextProcView):
         return text, file
 
 
-class BaseTextFileMethodView(BaseTextProcView):
+class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
     def form_valid(self, form):
         text, file, method = self.get_cleaned_text_file_method(form)
         context = self.setup_input_context(file, text, method)
@@ -46,8 +51,13 @@ class BaseTextFileMethodView(BaseTextProcView):
     def setup_input_context(self, file, text, method):
         choose_input_text = self.choose_input(file, text)
         context = self.get_context_data()
-        context["result"] = self.get_method().get(method)(choose_input_text)
+        context["result"] = self.gen_result(method, choose_input_text)
         return context
+
+    def gen_result(self, method, choose_input_text):
+        result = self.get_method().get(method)(choose_input_text)
+        self.set_hset(self.request.session.session_key, result)
+        return result
 
     @staticmethod
     def get_cleaned_text_file_method(form):
