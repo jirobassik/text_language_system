@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}History detail view{% endblock %}
+{% block content_main %}
+    <h2>Введенный текст: </h2>
+    <p>{{ history_detail_obj.input_text }}</p>
+    <h2>Результат обработки: </h2>
+    <p>{{ history_detail_obj.result_text }}</p>
+    <h4>Время добавления: {{ history_detail_obj.created_at }}</h4>
+{% endblock %}

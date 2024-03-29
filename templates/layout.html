@@ -44,17 +44,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'api-key-view' %}">API</a>
                     </li>
-                    {#                    {% if request.user.is_authenticated %}#}
-                    {#                        <li class="nav-item">#}
-                    {#                            <a class="nav-link" href="{% url 'vote-view-user' %}">Ваши голоса</a>#}
-                    {#                        </li>#}
-                    {#                        <li class="nav-item">#}
-                    {#                            <a class="nav-link" href="{% url 'history-view' %}">История</a>#}
-                    {#                        </li>#}
-                    {#                        <li class="nav-item">#}
-                    {#                            <a class="nav-link" href="{% url 'audio-manager-view' %}">Статус</a>#}
-                    {#                        </li>#}
-                    {#                    {% endif %}#}
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'history-list-view' %}">История</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             {% if request.user.is_authenticated %}

@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block title %}History view{% endblock %}
+{% block content_main %}
+    <h1>История</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Введенный текст</th>
+            <th>Результат обработки</th>
+            <th>Время добавления</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for his_obj in history_obj %}
+            <tr>
+                <td>{{ his_obj.input_text|truncatewords:6 }}</td>
+                <td>{{ his_obj.result_text|truncatewords:6 }}</td>
+                <td>{{ his_obj.created_at }}</td>
+                <td><a href="{{ his_obj.get_absolute_url }}">Подробнее</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -28,5 +28,6 @@ urlpatterns = [
     path("language-detector/", include("language_app.urls")),
     path("summarize-text/", include("summarize_app.urls")),
     path("api-key/", include("api_key.urls")),
+    path("history/", include("history.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

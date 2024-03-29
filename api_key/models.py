@@ -32,6 +32,7 @@ class ApiKeyModel(models.Model):
         return reverse('api-key-delete-view', args=[self.id])
 
     class Meta:
+        verbose_name_plural = "API токены"
         ordering = ["created_at"]
         indexes = [
             models.Index(
