@@ -24,7 +24,7 @@ class ApiKeyView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         if object_api := self.get_object_api():
-            return redirect("api-key-delete-view", pk=object_api.pk)
+            return redirect(object_api.get_absolute_key_delete_url())
         else:
             api_key, hash_key = generate_api_key(self.request.user.pk)
             form.instance.api_token = hash_key

@@ -67,6 +67,7 @@ LOCAL_APPS = [
     "summarize_app",
     "api_key",
     "file_view",
+    "history",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS

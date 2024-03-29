@@ -1,6 +1,7 @@
 from secrets import token_hex
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 
@@ -26,6 +27,9 @@ class ApiKeyModel(models.Model):
 
     def __str__(self):
         return "API токен хэширован. Можно только удалить и создать новый"
+
+    def get_absolute_key_delete_url(self):
+        return reverse('api-key-delete-view', args=[self.id])
 
     class Meta:
         ordering = ["created_at"]

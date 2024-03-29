@@ -37,8 +37,7 @@
                     {% endif %}
                     <form method="POST">
                         {% csrf_token %}
-                        <button type="submit" name="detector" class="gen-button" {% if block_update_but %}
-                                data-tooltip="Превышен лимит обновлений" disabled {% endif %}>{% if obj_api %}Удалить
+                        <button type="submit" name="detector" class="gen-button">{% if obj_api %}Удалить
                             токен {% else %}Создать токен{% endif %}</button>
                     </form>
                 </div>

@@ -7,7 +7,7 @@ from utilities.redis_com.redis_connect import r
 class JsonView(View):
     def get(self, request):
         session_id = self.request.session.session_key
-        if result := r.hgetall(f"user:{session_id}:summarize"):
+        if result := r.hgetall(f"user:{session_id}:json"):
             return self.gen_response(result)
         return HttpResponseNotFound()
 
