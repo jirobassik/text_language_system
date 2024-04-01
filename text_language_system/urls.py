@@ -25,9 +25,12 @@ urlpatterns = [
     path("account/", include("user_profile.urls"), name="account"),
     path("social-auth/", include("social_django.urls", namespace="social")),
     path("", include("text_language.urls")),
+    path("json-download/", include("file_view.urls")),
     path("language-detector/", include("language_app.urls")),
     path("summarize-text/", include("summarize_app.urls")),
+    path("classify-text/", include("classification_app.urls")),
     path("api-key/", include("api_key.urls")),
     path("history/", include("history.urls")),
+    path("status/", include("text_language_status.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

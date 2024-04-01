@@ -65,9 +65,11 @@ LOCAL_APPS = [
     "text_language",
     "language_app",
     "summarize_app",
+    "classification_app",
     "api_key",
     "file_view",
     "history",
+    "text_language_status",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
