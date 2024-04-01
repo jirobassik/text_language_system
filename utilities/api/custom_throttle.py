@@ -1,9 +1,6 @@
 from typing import Optional
-
 from django.http import HttpRequest
 from ninja_extra.throttling import SimpleRateThrottle
-
-from utilities.api.compare_tokens import CompareTokens
 
 
 class ApiTokenUserRateThrottle(SimpleRateThrottle):
@@ -18,8 +15,8 @@ class ApiTokenUserRateThrottle(SimpleRateThrottle):
     scope = "user"
 
     def get_cache_key(self, request: HttpRequest) -> Optional[str]:
-        if key := request.headers.get("X-Api-Key"):
-            if ident_token := CompareTokens(input_token=key)():
+        if request.headers.get("X-Api-Key"):
+            if ident_token := request.user.pk:
                 ident = ident_token
             else:
                 ident = self.get_ident(request)

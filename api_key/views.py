@@ -26,13 +26,18 @@ class ApiKeyView(LoginRequiredMixin, FormView):
         if object_api := self.get_object_api():
             return redirect(object_api.get_absolute_key_delete_url())
         else:
-            api_key, hash_key = generate_api_key(self.request.user.pk)
-            form.instance.api_token = hash_key
-            form.instance.user = self.request.user
-            form.save()
+            api_key = self.create_api_key(form)
             context = self.get_context_data()
             context["api_key"] = api_key
             return self.render_to_response(context)
+
+    def create_api_key(self, form):
+        prefix, api_key, api_hash_key = generate_api_key()
+        form.instance.id = prefix
+        form.instance.api_token = api_hash_key
+        form.instance.user = self.request.user
+        form.save()
+        return api_key
 
     def get_object_api(self):
         try:
