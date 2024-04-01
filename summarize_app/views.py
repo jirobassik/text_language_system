@@ -11,6 +11,7 @@ class SummarizeView(BaseTextProcView, HsetMixin):
     form_class = SummarizeForm
     success_url = reverse_lazy("summarize_view")
     button_name = "Реферировать текст"
+    app_name = "summarize_app"
 
     def form_valid(self, form):
         text, file, method, num_sentences = self.get_cleaned_text_file_method(form)
@@ -25,7 +26,7 @@ class SummarizeView(BaseTextProcView, HsetMixin):
 
     def gen_result(self, method, choose_input_text, num_sentences):
         result = self.get_method().get(method)(choose_input_text, num_sentences)
-        self.set_hset(self.request.session.session_key, result)
+        self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
         return result
 
     @staticmethod

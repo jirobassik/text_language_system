@@ -1,10 +1,11 @@
 from django.views.generic import FormView
-
+from django.contrib import messages
 from utilities.file_manager.file import FileManager
 from utilities.base_text_lang.mixins import HsetMixin
 
 class BaseTextProcView(FormView, HsetMixin):
     button_name = ""
+    app_name = ""
 
     def get_context_data(self, **kwargs):
         kwargs["button_name"] = self.button_name
@@ -32,7 +33,7 @@ class BaseTextFileView(BaseTextProcView):
 
     def gen_result(self, choose_input_text):
         result = self.get_method()(choose_input_text)
-        self.set_hset(self.request.session.session_key, result)
+        self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
         return result
 
     @staticmethod
@@ -55,9 +56,13 @@ class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
         return context
 
     def gen_result(self, method, choose_input_text):
-        result = self.get_method().get(method)(choose_input_text)
-        self.set_hset(self.request.session.session_key, result)
-        return result
+        try:
+            result = self.get_method().get(method)(choose_input_text)
+            self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
+            return result
+        except ValueError:
+            messages.error(self.request, "Не удалось обработать, свяжитесь с администратором")
+            return False
 
     @staticmethod
     def get_cleaned_text_file_method(form):

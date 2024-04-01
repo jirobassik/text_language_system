@@ -16,5 +16,5 @@ class JsonView(View):
         response = HttpResponse(
             json.dumps(result, ensure_ascii=False), content_type="application/json"
         )
-        response["Content-Disposition"] = 'attachment; filename="summarize_res.json"'
+        response["Content-Disposition"] = f'attachment; filename="{result.get("app_name")}_res.json"'
         return response

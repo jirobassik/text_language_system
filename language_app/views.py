@@ -10,6 +10,7 @@ class TextLanguageView(BaseTextFileMethodView):
     form_class = TextLanguageForm
     success_url = reverse_lazy("language_view")
     button_name = "Определить язык"
+    app_name = "language_app"
 
     def get_method(self):
         return methods
