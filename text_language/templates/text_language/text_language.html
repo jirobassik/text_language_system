@@ -53,18 +53,21 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{% url 'classification_view' %}"><h5 class="card-title">Определение темы текста</h5></a>
+                            <a href="{% url 'classification_view' %}"><h5 class="card-title">Определение темы
+                                текста</h5></a>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <a href="https://textproc.com:8000/classify-text/api/docs/redoc">
-                                <i class="bi bi-filetype-doc" style="font-size: 25px"></i></a>
-                            <a href="https://textproc.com:8000/classify-text/api/docs/swagger"><img
-                                    src="{% static 'text_language/svg/swagger.svg' %}"
-                                    alt="Swagger docs"
-                                    width="25px"
-                                    height="25px"></a>
-                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                            <div class="icon-container">
+                                <a href="https://textproc.com:8000/classify-text/api/docs/redoc">
+                                    <i class="bi bi-filetype-doc" style="font-size: 25px"></i></a>
+                                <a href="https://textproc.com:8000/classify-text/api/docs/swagger"><img
+                                        src="{% static 'text_language/svg/swagger.svg' %}"
+                                        alt="Swagger docs"
+                                        width="25px"
+                                        height="25px"></a>
+                                <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения темы текста. Поддерживаются различные методы."></i>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -102,6 +105,42 @@
                             <i class="bi bi-gear"></i>
                             <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для извлечения именованных сущностей"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">API истории</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="icon-container">
+                                <a href="https://textproc.com:8000/history/api/docs/redoc">
+                                    <i class="bi bi-filetype-doc" style="font-size: 25px"></i></a>
+                                <a href="https://textproc.com:8000/history/api/docs/swagger"><img
+                                        src="{% static 'text_language/svg/swagger.svg' %}"
+                                        alt="Swagger docs"
+                                        width="25px"
+                                        height="25px"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">API статуса обработки</h5>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="icon-container">
+                                <a href="https://textproc.com:8000/status/api/docs/redoc">
+                                    <i class="bi bi-filetype-doc" style="font-size: 25px"></i></a>
+                                <a href="https://textproc.com:8000/status/api/docs/swagger"><img
+                                        src="{% static 'text_language/svg/swagger.svg' %}"
+                                        alt="Swagger docs"
+                                        width="25px"
+                                        height="25px"></a>
+                            </div>
                         </div>
                     </div>
                 </div>
