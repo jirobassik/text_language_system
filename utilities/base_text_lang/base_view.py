@@ -3,6 +3,7 @@ from django.contrib import messages
 from utilities.file_manager.file import FileManager
 from utilities.base_text_lang.mixins import HsetMixin
 
+
 class BaseTextProcView(FormView, HsetMixin):
     button_name = ""
     app_name = ""
@@ -33,7 +34,12 @@ class BaseTextFileView(BaseTextProcView):
 
     def gen_result(self, choose_input_text):
         result = self.get_method()(choose_input_text)
-        self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
+        self.set_hset(
+            self.request.session.session_key,
+            input_text=choose_input_text,
+            result=result,
+            app_name=self.app_name,
+        )
         return result
 
     @staticmethod
@@ -58,7 +64,12 @@ class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
     def gen_result(self, method, choose_input_text):
         try:
             result = self.get_method().get(method)(choose_input_text)
-            self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
+            self.set_hset(
+                self.request.session.session_key,
+                input_text=choose_input_text,
+                result=result,
+                app_name=self.app_name,
+            )
             return result
         except ValueError:
             messages.error(self.request, "Не удалось обработать, свяжитесь с администратором")

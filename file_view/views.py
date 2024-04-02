@@ -14,7 +14,7 @@ class JsonView(View):
     @staticmethod
     def gen_response(result: dict):
         response = HttpResponse(
-            json.dumps(result, ensure_ascii=False), content_type="application/json"
+            json.dumps(result, ensure_ascii=False, indent=4), content_type="application/json"
         )
         response["Content-Disposition"] = f'attachment; filename="{result.get("app_name", "textproc")}_res.json"'
         return response

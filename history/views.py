@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from history.models import HistoryModel
 from utilities.base_text_lang.mixins import HsetMixin
 
+
 class HistoryListView(LoginRequiredMixin, ListView):
     model = HistoryModel
     template_name = "history/history.html"
@@ -20,7 +21,12 @@ class HistoryDetailView(LoginRequiredMixin, DetailView, HsetMixin):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.set_hset(self.request.session.session_key, expire_time=400, result=self.object.result_text)
+        self.set_hset(
+            self.request.session.session_key,
+            expire_time=400,
+            input_text=self.object.input_text,
+            result=self.object.result_text,
+        )
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 

@@ -26,7 +26,12 @@ class SummarizeView(BaseTextProcView, HsetMixin):
 
     def gen_result(self, method, choose_input_text, num_sentences):
         result = self.get_method().get(method)(choose_input_text, num_sentences)
-        self.set_hset(self.request.session.session_key, result=result, app_name=self.app_name)
+        self.set_hset(
+            self.request.session.session_key,
+            input_text=choose_input_text,
+            result=result,
+            app_name=self.app_name,
+        )
         return result
 
     @staticmethod
