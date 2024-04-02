@@ -41,14 +41,20 @@ common_ok = {
     },
 }
 
+error_response = {
+    400: {"description": "Error Response", **common_error},
+    401: {"description": "Unauthorized", **common_error},
+    404: {"description": "Not Found Response", **common_error},
+    405: {"description": "Method Not Allowed", **common_error},
+    422: {"description": "Unprocessable Content", **common_error},
+}
+
 # Common response
 common_response = {
     "responses": {
         200: {"description": "OK", **common_ok},
-        400: {"description": "Error Response", **common_error},
-        401: {"description": "Unauthorized", **common_error},
-        404: {"description": "Not Found Response", **common_error},
-        405: {"description": "Method Not Allowed", **common_error},
-        422: {"description": "Unprocessable Content", **common_error},
+        **error_response
     },
 }
+
+

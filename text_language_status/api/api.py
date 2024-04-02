@@ -1,6 +1,5 @@
 import json
 from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from ninja_extra import NinjaExtraAPI
 
@@ -13,6 +12,7 @@ from utilities.api.setup_throttle import (
 )
 from ninja_extra.throttling import throttle
 from text_language_status.models import TextLanguageManagerModel
+from utilities.api.docs.apps.status import status_api_kwargs, description
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -20,6 +20,7 @@ api = NinjaExtraAPI(
     auth=ApiKey(),
     title="Status API",
     urls_namespace="status_api",
+    description=description,
 )
 
 
@@ -30,7 +31,7 @@ def validation_errors(request, exc):
     return HttpResponse(json.dumps(error_detail, ensure_ascii=False), status=404)
 
 
-@api.get("/status/{status_id}", response=StatusOut)
+@api.get("/status/{status_id}", response=StatusOut, **status_api_kwargs)
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
 def status_detail(request, status_id):
     status_obj = TextLanguageManagerModel.objects.select_related("history_id").get(

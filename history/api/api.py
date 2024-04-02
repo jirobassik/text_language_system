@@ -13,6 +13,7 @@ from utilities.api.setup_throttle import (
 )
 from ninja_extra.throttling import throttle
 from history.models import HistoryModel
+from utilities.api.docs.apps.history import history_api_kwargs, description
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -20,6 +21,7 @@ api = NinjaExtraAPI(
     auth=ApiKey(),
     title="History API",
     urls_namespace="history_api",
+    description=description,
 )
 
 
@@ -30,7 +32,7 @@ def validation_errors(request, exc):
     return HttpResponse(json.dumps(error_detail, ensure_ascii=False), status=404)
 
 
-@api.get("/detail/{history_id}", response=HistoryOut)
+@api.get("/detail/{history_id}", response=HistoryOut, **history_api_kwargs)
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
 def history_detail(request, history_id):
     history_obj = get_object_or_404(
