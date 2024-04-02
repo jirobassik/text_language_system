@@ -3,25 +3,11 @@
 {% block title %}Status view{% endblock %}
 {% block content_main %}
     <h1>Статус</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>ID задачи</th>
-            <th>Статус</th>
-            <th>Введенный текст</th>
-            <th>Время добавления</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for stat_obj in status_obj %}
-            <tr>
-                <td>{{ stat_obj.task_id }}</td>
-                <td>{{ stat_obj.status }}</td>
-                <td>{{ stat_obj.text }}</td>
-                <td>{{ stat_obj.time_add }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% if status_obj %}
+        <div id="btc" hx-get="{% url 'status-list-view' %}" hx-trigger="every 5s" hx-swap="innerHTML">
+            {% include 'text_language_status/status_table.html' %}
+        </div>
+    {% else %}
+        <h5>Пока нет очереди, она появится как только преобразуйте текст в голос!</h5>
+    {% endif %}
 {% endblock %}

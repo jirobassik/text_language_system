@@ -1,0 +1,21 @@
+<table>
+    <thead>
+    <tr>
+        <th>ID задачи</th>
+        <th>Статус</th>
+        <th>Введенный текст</th>
+        <th>Время добавления</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stat_obj in status_obj %}
+        <tr>
+            <td>{{ stat_obj.task_id }}</td>
+            <td>{{ stat_obj.status }}</td>
+            <td>{{ stat_obj.text }}</td>
+            <td>{{ stat_obj.time_add }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
