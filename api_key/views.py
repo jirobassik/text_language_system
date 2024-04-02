@@ -23,7 +23,8 @@ class ApiKeyView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        if object_api := self.get_object_api():
+        context = self.get_context_data()
+        if object_api := context.get("object_api"):
             return redirect(object_api.get_absolute_key_delete_url())
         else:
             api_key = self.create_api_key(form)
