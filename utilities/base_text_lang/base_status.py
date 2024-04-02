@@ -18,4 +18,5 @@ class BaseStatus:
 
     def add_queue(self, user, task_model, choose_input_text, **kwargs):
         task_model_pk = task_model.pk
-        self.setup_long_task(user, task_model_pk, choose_input_text, **kwargs)
+        task = self.setup_long_task(user, task_model_pk, choose_input_text, **kwargs)
+        TextLanguageManagerModel.objects.filter(id=task_model_pk).update(task_id=task.task.id)
