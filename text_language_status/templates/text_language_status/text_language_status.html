@@ -1,13 +1,13 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% block style %}{% static 'history/css/history.css' %}{% endblock %}
 {% block title %}Status view{% endblock %}
 {% block content_main %}
-    <h1>Статус</h1>
     {% if status_obj %}
         <div id="btc" hx-get="{% url 'status-list-view' %}" hx-trigger="every 5s" hx-swap="innerHTML">
             {% include 'text_language_status/status_table.html' %}
         </div>
     {% else %}
-        <h5>Пока нет очереди, она появится как только преобразуйте текст в голос!</h5>
+        <h5>Пока нет очереди, она появится как только поставите длительную задачу</h5>
     {% endif %}
 {% endblock %}

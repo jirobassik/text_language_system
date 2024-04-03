@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
 {% load static %}
+{% block style %}{% static 'history/css/history.css' %}{% endblock %}
 {% block title %}History view{% endblock %}
 {% block content_main %}
-    <h1>История</h1>
+    {% if history_obj %}
     <table>
         <thead>
         <tr>
@@ -15,12 +16,15 @@
         <tbody>
         {% for his_obj in history_obj %}
             <tr>
-                <td>{{ his_obj.input_text|truncatewords:6 }}</td>
-                <td>{{ his_obj.result_text|truncatewords:6 }}</td>
+                <td>{{ his_obj.input_text|truncatechars_html:20 }}</td>
+                <td>{{ his_obj.result_text|truncatechars_html:20 }}</td>
                 <td>{{ his_obj.created_at }}</td>
                 <td><a href="{{ his_obj.get_absolute_url }}">Подробнее</a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+        {% else %}
+        <h5>Пока нет истории, она появится как только будет выполнена долгая задача</h5>
+    {% endif %}
 {% endblock %}
