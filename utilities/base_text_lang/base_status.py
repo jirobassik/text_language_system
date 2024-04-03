@@ -1,4 +1,5 @@
 from text_language_status.models import TextLanguageManagerModel
+from utilities.redis_com.sub_commands.limit_long_operation import add_long_operation, check_limit_long_operation
 
 
 class BaseStatus:
@@ -8,6 +9,7 @@ class BaseStatus:
 
     def create_manager_field(self, task_id="Не задан", text="Обрабатывается", status="В очереди"):
         user = self.request.user
+        check_limit_long_operation(user)
         task_model = TextLanguageManagerModel.objects.create(
             task_id=task_id, text=text, status=status, user=user
         )
@@ -18,6 +20,7 @@ class BaseStatus:
 
     def add_queue(self, user, task_model, choose_input_text, **kwargs):
         task_model_pk = task_model.pk
+        add_long_operation(self.request.user, task_model_pk)
         task_id = self.setup_long_task(user, task_model_pk, choose_input_text, **kwargs).task.id
         TextLanguageManagerModel.objects.filter(id=task_model_pk).update(task_id=task_id)
         return task_model_pk

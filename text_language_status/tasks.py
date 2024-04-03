@@ -17,4 +17,4 @@ def delete_old_status():
 def signal_listener(signal, task, exc=None):
     if task.name == "classify_long_task":
         task_user, task_pk = task.args[0], task.args[1]
-        update_status(task.id, status_choice.get(signal, "Нет данных"), task_pk, task_user)
+        update_status(task.id, status_choice.get(signal, "Нет данных"), task_pk, task_user, signal)
