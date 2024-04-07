@@ -9,7 +9,13 @@
             {% csrf_token %}
             {% include 'common/text_file_form.html' %}
             {% if result %}
-                {% include 'common/result.html' %}
+                <div class="result">
+                    <h2>Результат <a href="{% url 'json_view' %}"><i class="bi bi-filetype-json"
+                                                                     style="color: grey; font-size: 25px"></i></a></h2>
+                    <p>Тональность: {{ result.classification }} <br>
+                    Позитивный процент: {{ result.p_pos }} <br>
+                    Негативный процент: {{ result.p_neg }}</p>
+                </div>
             {% endif %}
         </form>
         <script>

@@ -22,5 +22,16 @@ class SentimentView(BaseTextFileView):
             messages.error(self.request, "Не удалось определить тональность")
         return context
 
+    def gen_result(self, choose_input_text):
+        result = self.get_method()(choose_input_text)
+        self.save_hset(
+            input_text=choose_input_text,
+            result=result.classification,
+            pos_per=result.p_pos,
+            neg_per=result.p_neg,
+            app_name=self.app_name,
+        )
+        return result
+
     def get_method(self):
         return SentimentAnalyzer()

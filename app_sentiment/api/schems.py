@@ -11,3 +11,9 @@ class SentimentSchem(Schema):
         min_length=settings.API_VALID_MIN_FORM_LENGTH_TEXT,
         max_length=settings.API_VALID_MAX_FORM_LENGTH_TEXT,
     )
+
+
+class SentimentOut(Schema):
+    result: str
+    p_pos: float = Field(description="Percentage of belonging to the positive")
+    p_neg: float = Field(description="Percentage of belonging to the negative")
