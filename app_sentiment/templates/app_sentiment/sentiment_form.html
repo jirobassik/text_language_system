@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block style %}{% static 'app_sentiment/css/sentiment_form.css' %}{% endblock %}
+{% block style2 %}{% static 'user_profile/css/messages.css' %}{% endblock %}
+{% block title %}Sentiment analyze{% endblock %}
+{% block content_main %}
+    <div class="sentiment-detector">
+        <form method="POST" enctype="multipart/form-data" class="language-form">
+            {% csrf_token %}
+            {% include 'common/text_file_form.html' %}
+            {% if result %}
+                {% include 'common/result.html' %}
+            {% endif %}
+        </form>
+        <script>
+            $(document).ready(function () {
+                $('#id_file').change(function () {
+                    var fileInput = $(this);
+                    if (fileInput.val()) {
+                        $('#id_text').attr('disabled', 'disabled');
+                    } else {
+                        $('#id_text').removeAttr('disabled');
+                    }
+                });
+            });
+        </script>
+    </div>
+{% endblock %}

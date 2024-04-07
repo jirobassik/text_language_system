@@ -8,7 +8,7 @@ from utilities.file_manager.file_type import file_type
 from utilities.file_manager.readers.docx_reader import DocxReader
 from utilities.file_manager.readers.pdf_reader import PdfReader
 from utilities.file_manager.readers.txt_reader import TxtReader
-
+from utilities.api.docs.common import common_file_error_message
 
 class FileManager:
     error_message = "Не удалось прочитать файл"
@@ -24,14 +24,15 @@ class FileManager:
                 try:
                     return TxtReader.read(file_copy)
                 except UnicodeDecodeError:
-                    raise self.txt_read_error()
+                    raise self.read_error()
+        raise self.read_error()
 
-    def txt_read_error(self):
+    def read_error(self):
         return forms.ValidationError(self.error_message)
 
 
 class ApiFIleManager(FileManager):
-    error_message = "Failed to read file"
+    error_message = common_file_error_message
 
-    def txt_read_error(self):
+    def read_error(self):
         return errors.ValidationError(self.error_message)

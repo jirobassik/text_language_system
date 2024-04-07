@@ -1,4 +1,4 @@
-from classification_app.tasks import classify_long_task
+from app_classification.tasks import classify_long_task
 from utilities.api.api_status import ApiStatus
 
 

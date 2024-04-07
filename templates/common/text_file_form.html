@@ -1,0 +1,17 @@
+<div class="form-input">
+    <div class="input-grid">
+        {{ form.text.errors }}
+        {{ form.text.label_tag }}
+        {{ form.text.help_text }}
+        {{ form.text }}
+        <div class="file-and-method-grid">
+            <div class="file-input">
+                {{ form.file.errors }}
+                {{ form.file.label_tag }}
+                {{ form.file }}
+                {{ form.file.help_text }}
+            </div>
+        </div>
+    </div>
+    <button type="submit" name="detector">{{ button_name }}</button>
+</div>

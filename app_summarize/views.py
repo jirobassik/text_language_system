@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from utilities.base_text_lang.base_view import BaseTextProcView
 
-from summarize_app.forms import SummarizeForm
+from app_summarize.forms import SummarizeForm
 from text_proc.sum_mod.methods import methods
 from utilities.base_text_lang.mixins import HsetMixin
 
@@ -11,7 +11,7 @@ class SummarizeView(BaseTextProcView, HsetMixin):
     form_class = SummarizeForm
     success_url = reverse_lazy("summarize_view")
     button_name = "Реферировать текст"
-    app_name = "summarize_app"
+    app_name = "app_summarize"
 
     def form_valid(self, form):
         text, file, method, num_sentences = self.get_cleaned_text_file_method(form)
@@ -26,10 +26,10 @@ class SummarizeView(BaseTextProcView, HsetMixin):
 
     def gen_result(self, method, choose_input_text, num_sentences):
         result = self.get_method().get(method)(choose_input_text, num_sentences)
-        self.set_hset(
-            self.request.session.session_key,
+        self.save_hset(
             input_text=choose_input_text,
             result=result,
+            method=method,
             app_name=self.app_name,
         )
         return result

@@ -86,13 +86,22 @@
                 <div class="col-lg-4 col-md-6 col-sm-12 mb-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Анализ тональности</h5>
+                            <a href="{% url 'sentiment-view' %}"><h5 class="card-title">Анализ тональности</h5></a>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <i class="bi bi-gear"></i>
-                            <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
+                            <div class="icon-container">
+                                <a href="https://textproc.com:8000/sentiment-text/api/docs/redoc">
+                                    <i class="bi bi-filetype-doc" style="font-size: 25px"></i></a>
+                                <a href="https://textproc.com:8000/sentiment-text/api/docs/swagger"><img
+                                        src="{% static 'text_language/svg/swagger.svg' %}"
+                                        alt="Swagger docs"
+                                        width="25px"
+                                        height="25px"></a>
+                                <i class="bi bi-question-circle" data-tooltip="Позволяет вводить текст или
                         загружать из файла, для определения анализа тональности текста,
                         а именно: позитивный, негативный, нейтральный"></i>
+                            </div>
+
                         </div>
                     </div>
                 </div>

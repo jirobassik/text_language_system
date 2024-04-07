@@ -13,7 +13,13 @@ class BaseTextProcView(FormView, HsetMixin):
         return super().get_context_data(**kwargs)
 
     def get_method(self):
-        raise NotImplementedError(".get_methods() must be overridden")
+        raise NotImplementedError(".get_method() must be overridden")
+
+    def save_hset(self, **kwargs):
+        try:
+            self.set_hset(self.request.session.session_key, **kwargs)
+        except ValueError:
+            messages.error(self.request, "Не удалось обработать, свяжитесь с администратором")
 
     @staticmethod
     def choose_input(file, text):
@@ -34,8 +40,7 @@ class BaseTextFileView(BaseTextProcView):
 
     def gen_result(self, choose_input_text):
         result = self.get_method()(choose_input_text)
-        self.set_hset(
-            self.request.session.session_key,
+        self.save_hset(
             input_text=choose_input_text,
             result=result,
             app_name=self.app_name,
@@ -62,18 +67,14 @@ class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
         return context
 
     def gen_result(self, method, choose_input_text):
-        try:
-            result = self.get_method().get(method)(choose_input_text)
-            self.set_hset(
-                self.request.session.session_key,
-                input_text=choose_input_text,
-                result=result,
-                app_name=self.app_name,
-            )
-            return result
-        except ValueError:
-            messages.error(self.request, "Не удалось обработать, свяжитесь с администратором")
-            return False
+        result = self.get_method().get(method)(choose_input_text)
+        self.save_hset(
+            input_text=choose_input_text,
+            result=result,
+            method=method,
+            app_name=self.app_name,
+        )
+        return result
 
     @staticmethod
     def get_cleaned_text_file_method(form):

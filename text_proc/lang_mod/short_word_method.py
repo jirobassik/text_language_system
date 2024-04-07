@@ -5,7 +5,7 @@ from text_proc.textnormalizer import TextNormalizer
 from collections import Counter
 from operator import ge, getitem
 from decimal import Decimal
-from language_app.models import LanguagePoaModel
+from app_language.models import LanguagePoaModel
 
 
 class ShortWord:

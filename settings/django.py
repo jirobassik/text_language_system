@@ -58,14 +58,16 @@ THIRD_PARTY_APPS = [
     "huey.contrib.djhuey",
     "debug_toolbar",
     "django_registration",
+    "django_rename_app",
 ]
 
 LOCAL_APPS = [
     "user_profile",
     "text_language",
-    "language_app",
-    "summarize_app",
-    "classification_app",
+    "app_language",
+    "app_summarize",
+    "app_classification",
+    "app_sentiment",
     "api_key",
     "file_view",
     "history",

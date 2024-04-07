@@ -1,6 +1,6 @@
 from django.urls import path
-from language_app.views import TextLanguageView
-from language_app.api import api
+from app_language.views import TextLanguageView
+from app_language.api import api
 
 
 urlpatterns = [

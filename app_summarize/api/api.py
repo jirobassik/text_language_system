@@ -1,11 +1,9 @@
-import json
-from django.http import HttpResponse
 from ninja import File, Form
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
 
-from summarize_app.api.schems import Summarize, SummarizeFile
+from app_summarize.api.schems import Summarize, SummarizeFile
 from text_proc.sum_mod.methods import methods
 from utilities.api.auth import ApiKey
 from utilities.api.docs.multiple_docs import MixedDocs
@@ -14,6 +12,7 @@ from utilities.validators.api_file_validations import validate_api_file
 from utilities.file_manager.file import ApiFIleManager
 from ninja_extra.throttling import throttle
 from utilities.api.docs.apps.summarize import *
+from utilities.api.error import send_error
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -26,9 +25,8 @@ api = NinjaExtraAPI(
 
 
 @api.exception_handler(ValidationError)
-def validation_errors(request, exc: ValidationError):
-    error_detail = {"detail": exc.errors}
-    return HttpResponse(json.dumps(error_detail, ensure_ascii=False), status=422)
+def validation_error(request, exc: ValidationError):
+    return send_error(exc)
 
 
 @api.post("/", **summarize_api_text_kwargs)

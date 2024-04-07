@@ -1,10 +1,8 @@
-import json
-from django.http import HttpResponse
 from ninja import File, Form
 from ninja import UploadedFile
 from ninja.errors import ValidationError
 from ninja_extra import NinjaExtraAPI
-from language_app.api.schems import LanguageDet, LanguageDetFile
+from app_language.api.schems import LanguageDet, LanguageDetFile
 from text_proc.lang_mod.methods import methods
 from utilities.api.auth import ApiKey
 from utilities.api.docs.multiple_docs import MixedDocs
@@ -16,6 +14,8 @@ from utilities.validators.api_file_validations import validate_api_file
 from utilities.file_manager.file import ApiFIleManager
 from ninja_extra.throttling import throttle
 from utilities.api.docs.apps.language import *
+from langdetect.lang_detect_exception import LangDetectException
+from utilities.api.error import send_error
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -28,9 +28,14 @@ api = NinjaExtraAPI(
 
 
 @api.exception_handler(ValidationError)
-def validation_errors(request, exc):
-    error_detail = {"detail": exc.errors}
-    return HttpResponse(json.dumps(error_detail, ensure_ascii=False), status=422)
+def validation_error(request, exc):
+    return send_error(exc)
+
+
+@api.exception_handler(LangDetectException)
+def lang_detect_error(request, exc):
+    exc.errors = lang_detect_error_message
+    return send_error(exc)
 
 
 @api.post("/", **lang_detect_api_text_kwargs)

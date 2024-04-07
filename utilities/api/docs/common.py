@@ -7,6 +7,14 @@ to {settings.API_VALID_MAX_FILE_LENGTH_TEXT} characters. Extensions: {", ".join(
 The size is not more than 2 MB. <br> Requests: {settings.USER_MIN_THROTTLE} per minute and {settings.USER_DAY_THROTTLE} 
 per day</p>"""
 
+common_file_error_message = [
+    {
+        "type": "failed_read_file",
+        "msg": "Try input other file",
+    }
+]
+
+
 # Common error
 common_error = {
     "content": {

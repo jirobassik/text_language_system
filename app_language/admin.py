@@ -1,5 +1,5 @@
 from django.contrib import admin
-from language_app.models import LanguagePoaModel
+from app_language.models import LanguagePoaModel
 
 
 @admin.register(LanguagePoaModel)
