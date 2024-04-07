@@ -12,5 +12,4 @@ class PdfReader:
         for page_num in range(num_pages):
             page = reader.pages[page_num]
             text += page.extract_text()
-        print("pdf", text)
         return text
