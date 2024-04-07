@@ -16,7 +16,11 @@ from text_proc.sent_mod.sentiment_analyzer import SentimentAnalyzer
 from ninja_extra.throttling import throttle
 from utilities.api.error import send_error
 from utilities.api.docs.apps.sentiment import sentiment_error_message
-from utilities.api.docs.apps.sentiment import description, sentiment_analyzer_file_kwargs, sentiment_analyzer_text_kwargs
+from utilities.api.docs.apps.sentiment import (
+    description,
+    sentiment_analyzer_file_kwargs,
+    sentiment_analyzer_text_kwargs,
+)
 from langdetect.lang_detect_exception import LangDetectException
 
 api = NinjaExtraAPI(

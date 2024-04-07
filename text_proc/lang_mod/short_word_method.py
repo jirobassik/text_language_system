@@ -27,7 +27,7 @@ class ShortWord:
     @cache
     def __languages_probability(self):
         return {
-            language_poa.language: self.__create_poa(language_poa.poa_text)
+            language_poa.short_name_language: self.__create_poa(language_poa.poa_text)
             for language_poa in LanguagePoaModel.objects.all()
         }
 
