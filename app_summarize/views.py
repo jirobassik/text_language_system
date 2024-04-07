@@ -7,7 +7,7 @@ from utilities.base_text_lang.mixins import HsetMixin
 
 
 class SummarizeView(BaseTextProcView, HsetMixin):
-    template_name = "summarize_app/summarize_form.html"
+    template_name = "app_summarize/summarize_form.html"
     form_class = SummarizeForm
     success_url = reverse_lazy("summarize_view")
     button_name = "Реферировать текст"
