@@ -6,7 +6,7 @@ from langdetect.lang_detect_exception import LangDetectException
 from app_extraction.forms import ExtractionForm
 from utilities.base_text_lang.base_view import BaseTextFileView
 from text_proc.ent_mod.entity_extraction import EntityExtraction
-
+from text_proc.ent_mod.errors import EntityExtractionError
 
 class ExtractionView(BaseTextFileView):
     template_name = "app_extraction/extraction_form.html"
@@ -20,7 +20,7 @@ class ExtractionView(BaseTextFileView):
         context = self.get_context_data()
         try:
             context["result"] = self.gen_result(choose_input_text)
-        except LangDetectException:
+        except (LangDetectException, EntityExtractionError):
             messages.error(self.request, "Не удалось извлечь именованные сущности")
         return context
 

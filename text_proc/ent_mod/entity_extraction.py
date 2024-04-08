@@ -1,7 +1,7 @@
 from collections import defaultdict
 from langdetect import detect
 import spacy
-from text_proc.sent_mod.errors import SentimentAnalyzerError
+from text_proc.ent_mod.errors import EntityExtractionError
 
 
 class EntityExtraction:
@@ -17,7 +17,7 @@ class EntityExtraction:
                 return self.group_entities(self.nlp_eng(text))
             case "ru":
                 return self.group_entities(self.nlp_ru(text))
-        raise SentimentAnalyzerError("Не удалось обработать текст")
+        raise EntityExtractionError("Не удалось обработать текст")
 
     @staticmethod
     def group_entities(doc):

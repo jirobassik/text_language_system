@@ -23,7 +23,7 @@ from utilities.api.docs.apps.entities import (
     ent_extr_error_message,
 )
 from text_proc.ent_mod.entity_extraction import EntityExtraction
-
+from text_proc.ent_mod.errors import EntityExtractionError
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -39,7 +39,7 @@ api = NinjaExtraAPI(
 def validation_error(request, exc):
     return send_error(exc)
 
-
+@api.exception_handler(EntityExtractionError)
 @api.exception_handler(LangDetectException)
 def extraction_error(request, exc):
     exc.errors = ent_extr_error_message
