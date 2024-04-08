@@ -68,6 +68,7 @@ LOCAL_APPS = [
     "app_summarize",
     "app_classification",
     "app_sentiment",
+    "app_extraction",
     "api_key",
     "file_view",
     "history",
