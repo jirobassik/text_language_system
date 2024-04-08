@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block style %}{% static 'app_key_phrase/css/key_phrase_form.css' %}{% endblock %}
+{% block style2 %}{% static 'user_profile/css/messages.css' %}{% endblock %}
+{% block title %}Summarize Text{% endblock %}
+{% block content_main %}
+    <div class="language-detector">
+        <form method="POST" enctype="multipart/form-data" class="language-form">
+            {% csrf_token %}
+            <div class="form-input">
+                <div class="input-grid">
+                    {{ form.text.errors }}
+                    {{ form.text.label_tag }}
+                    {{ form.text.help_text }}
+                    {{ form.text }}
+                    <div class="file-and-method-grid">
+                        <div class="file-input">
+                            {{ form.file.errors }}
+                            {{ form.file.label_tag }}
+                            {{ form.file }}
+                            {{ form.file.help_text }}
+                        </div>
+                        <div class="num-sentences">
+                            {{ form.num_sentences.errors }}
+                            {{ form.num_sentences.label_tag }}
+                            {{ form.num_sentences }}
+                            {{ form.num_sentences.help_text }}
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" name="detector">{{ button_name }}</button>
+            </div>
+            {% if result %}
+                <div class="result">
+                    <h2>Результат <a href="{% url 'json_view' %}"><i class="bi bi-filetype-json"
+                                                                     style="color: grey; font-size: 25px"></i></a></h2>
+                    <p>Ключевые слова:</p>
+                    <div class="keyword-list">
+                        {% for phrase in result %}
+                            <p>{{ phrase.key_phrase }} - {{ phrase.score }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </form>
+        <script>
+            $(document).ready(function () {
+                $('#id_file').change(function () {
+                    var fileInput = $(this);
+                    if (fileInput.val()) {
+                        $('#id_text').attr('disabled', 'disabled');
+                    } else {
+                        $('#id_text').removeAttr('disabled');
+                    }
+                });
+            });
+        </script>
+    </div>
+{% endblock %}

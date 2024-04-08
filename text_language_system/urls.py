@@ -31,6 +31,7 @@ urlpatterns = [
     path("classify-text/", include("app_classification.urls")),
     path("sentiment-text/", include("app_sentiment.urls")),
     path("extraction-entities-text/", include("app_extraction.urls")),
+    path("key-phrase-text/", include("app_key_phrase.urls")),
     path("api-key/", include("api_key.urls")),
     path("history/", include("history.urls")),
     path("status/", include("text_language_status.urls")),
