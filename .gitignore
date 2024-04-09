@@ -164,3 +164,4 @@ media
 backup/
 cert.crt
 cert.key
+settings/text_language_system/ser_const.py

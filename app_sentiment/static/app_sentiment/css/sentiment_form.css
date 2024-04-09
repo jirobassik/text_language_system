@@ -6,11 +6,11 @@ label[for="id_file"] {
     display: none;
 }
 
-button[type="submit"] {
+.sentiment-detector button[type="submit"] {
     width: 100%;
 }
 
-form {
+.sentiment-detector form {
     max-width: 1000px;
     margin: 40px auto 0;
     padding: 20px;
@@ -52,7 +52,7 @@ textarea {
     resize: vertical;
 }
 
-button[type="submit"] {
+.sentiment-detector button[type="submit"] {
     padding: 10px 20px;
     background-color: cornflowerblue;
     color: #fff;
@@ -61,7 +61,7 @@ button[type="submit"] {
     cursor: pointer;
 }
 
-button[type="submit"]:hover {
+.sentiment-detector button[type="submit"]:hover {
     background-color: grey;
 }
 

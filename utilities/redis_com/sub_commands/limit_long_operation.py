@@ -9,6 +9,7 @@ def setup_key(user):
 
 def add_long_operation(user, oper_pk):
     r.rpush(setup_key(user), f"{oper_pk}")
+    r.expire(setup_key(user), settings.TIME_EXPIRE_LONG_OPERATION)
 
 
 def delete_long_operation(user, oper_pk):
