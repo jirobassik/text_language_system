@@ -1,4 +1,3 @@
-import time
 from functools import cache
 
 from text_proc.textnormalizer import TextNormalizer
@@ -18,10 +17,7 @@ class ShortWord:
 
     def __call__(self, text, *args, **kwargs):
         input_preprocess_text = self.text_normalizer(text.lower())
-        start = time.time()
         res_dict_short_meth = self.__file_probability(input_preprocess_text)
-        end = time.time() - start
-        print("end time", end)
         return max(res_dict_short_meth, key=res_dict_short_meth.get)
 
     @cache

@@ -37,6 +37,7 @@ def classify_api_text(request, clas_text_schem: ClassifySchem):
     return {
         "result": task_id,
         "detail": "This long task. Check execution and get result in status api",
+        "status_api_url": "https://textproc.com:8000/status/api/status/{status_id}",
     }
 
 
@@ -48,4 +49,5 @@ def classify_api_file(request, file: File[UploadedFile]):
     return {
         "result": task_id,
         "detail": "This long task. Check execution and get result in status api",
+        "status_api_url": "https://textproc.com:8000/status/api/status/{status_id}",
     }

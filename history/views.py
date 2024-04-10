@@ -1,9 +1,8 @@
-import json
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from history.models import HistoryModel
 from utilities.base_text_lang.mixins import HsetMixin
+from utilities.converter import convert_to_serializable
 
 
 class HistoryListView(LoginRequiredMixin, ListView):
@@ -23,16 +22,11 @@ class HistoryDetailView(LoginRequiredMixin, DetailView, HsetMixin):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        serialized_data = json.dumps(
-            self.object.result_text,
-            default=list,
-            ensure_ascii=False,
-        )
         self.set_hset(
             self.request.session.session_key,
             expire_time=400,
             input_text=self.object.input_text,
-            result=serialized_data,
+            result=convert_to_serializable(self.object.result_text, default=list),
         )
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)

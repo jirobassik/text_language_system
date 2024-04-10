@@ -1,5 +1,3 @@
-import json
-
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -13,6 +11,7 @@ from app_classification.forms import ClassifyForm
 from app_classification.tasks import classify_long_task
 from text_proc.clas_mod.neuro_classification import NeuroTextClassifier
 from utilities.server_request.error import SendError
+from utilities.converter import convert_to_serializable
 
 class ClassifyView(View):
     def dispatch(self, request, *args, **kwargs):
@@ -43,15 +42,10 @@ class ClassifyNotAuthView(BaseTextFileView):
     def gen_result(self, choose_input_text):
         try:
             result = self.get_method()(choose_input_text)
-            serialized_data = json.dumps(
-                result,
-                default=list,
-                ensure_ascii=False,
-            )
             self.set_hset(
                 self.request.session.session_key,
                 input_text=choose_input_text,
-                result=serialized_data,
+                result=convert_to_serializable(result, default=list),
                 app_name=self.app_name,
             )
             return result

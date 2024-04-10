@@ -1,5 +1,3 @@
-import json
-
 from ninja import File, Form
 from ninja import UploadedFile
 from ninja.errors import ValidationError
@@ -11,6 +9,7 @@ from utilities.api.setup_throttle import (
     User60MinRateThrottle,
     User100PerDayRateThrottle,
 )
+from utilities.converter import convert_to_serializable
 from utilities.validators.api_file_validations import validate_api_file
 from utilities.file_manager.file import ApiFIleManager
 from text_proc.key_phrase_mod.errors import KeyPhraseExtractorError
@@ -51,12 +50,7 @@ def key_phrase_error(request, exc):
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
 def key_phrase_extractor_api_text(request, key_phrase_schem: KeyPhraseSchem):
     res = KeyPhraseExtractor()(key_phrase_schem.text, key_phrase_schem.num_key_phrase)
-    return {
-        "result": json.dumps(
-            res,
-            ensure_ascii=False,
-        )
-    }
+    return {"result": convert_to_serializable(res)}
 
 
 @api.post("/file", **key_phrase_extractor_api_file_kwargs)
@@ -68,9 +62,4 @@ def key_phrase_extractor_api_file(
     res = KeyPhraseExtractor()(
         ApiFIleManager().file_read(file), key_phrase_file_schem.num_key_phrase
     )
-    return {
-        "result": json.dumps(
-            res,
-            ensure_ascii=False,
-        )
-    }
+    return {"result": convert_to_serializable(res)}

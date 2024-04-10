@@ -1,5 +1,3 @@
-import json
-
 from ninja import File
 from ninja import UploadedFile
 from ninja.errors import ValidationError
@@ -24,6 +22,7 @@ from utilities.api.docs.apps.entities import (
 )
 from text_proc.ent_mod.entity_extraction import EntityExtraction
 from text_proc.ent_mod.errors import EntityExtractionError
+from utilities.converter import convert_to_serializable
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -39,6 +38,7 @@ api = NinjaExtraAPI(
 def validation_error(request, exc):
     return send_error(exc)
 
+
 @api.exception_handler(EntityExtractionError)
 @api.exception_handler(LangDetectException)
 def extraction_error(request, exc):
@@ -50,13 +50,7 @@ def extraction_error(request, exc):
 @throttle(User60MinRateThrottle, User100PerDayRateThrottle)
 def entities_extraction_api_text(request, lang_text_schem: SentimentSchem):
     res = EntityExtraction()(lang_text_schem.text)
-    return {
-        "result": json.dumps(
-            res,
-            default=list,
-            ensure_ascii=False,
-        )
-    }
+    return {"result": convert_to_serializable(res, default=list)}
 
 
 @api.post("/file", **entities_extraction_api_file_kwargs)
@@ -64,10 +58,4 @@ def entities_extraction_api_text(request, lang_text_schem: SentimentSchem):
 def entities_extraction_api_file(request, file: UploadedFile = File(...)):
     validate_api_file(file)
     res = EntityExtraction()(ApiFIleManager().file_read(file))
-    return {
-        "result": json.dumps(
-            res,
-            default=list,
-            ensure_ascii=False,
-        )
-    }
+    return {"result": convert_to_serializable(res, default=list)}

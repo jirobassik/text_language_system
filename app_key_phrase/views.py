@@ -1,5 +1,3 @@
-import json
-
 from django.contrib import messages
 from django.urls import reverse_lazy
 from langdetect.lang_detect_exception import LangDetectException
@@ -10,6 +8,7 @@ from app_key_phrase.forms import KeyPhraseExtractionForm
 from text_proc.key_phrase_mod.key_phrase_extractor import KeyPhraseExtractor
 from utilities.base_text_lang.mixins import HsetMixin
 from text_proc.key_phrase_mod.errors import KeyPhraseExtractorError
+from utilities.converter import convert_to_serializable
 
 
 class KeyPhraseExtractionView(BaseTextProcView, HsetMixin):
@@ -35,10 +34,9 @@ class KeyPhraseExtractionView(BaseTextProcView, HsetMixin):
 
     def gen_result(self, choose_input_text, num_key_phrase):
         result = self.get_method()(choose_input_text, num_key_phrase)
-        serialized_result = json.dumps(result, ensure_ascii=False)
         self.save_hset(
             input_text=choose_input_text,
-            result=serialized_result,
+            result=convert_to_serializable(result),
             app_name=self.app_name,
         )
         return result
