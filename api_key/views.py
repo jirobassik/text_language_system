@@ -3,12 +3,15 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, DeleteView
 from django.conf import settings
+from django.contrib import messages
 from api_key.forms import ApiKeyForm
 from api_key.models import ApiKeyModel
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from utilities.redis_com.sub_commands.delete_limit import check_limit, api_delete_limit_check
 from utilities.api.gen_api_key import generate_api_key
+from utilities.redis_com.sub_commands.delete_limit import check_limit_error
+from utilities.redis_com.errors import MaxDeleteLimitError
 
 
 class ApiKeyView(LoginRequiredMixin, FormView):
@@ -65,8 +68,15 @@ class ApiKeyDeleteView(LoginRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         success_url = self.get_success_url()
+        try:
+            self.delete_key()
+        except MaxDeleteLimitError as error_message:
+            messages.error(self.request, error_message)
+        return HttpResponseRedirect(success_url)
+
+    def delete_key(self):
+        check_limit_error(self.request.user.pk)
         self.object.is_deleted = True
         self.object.is_expired = True
         self.object.save()
         api_delete_limit_check(self.request.user.pk)
-        return HttpResponseRedirect(success_url)

@@ -7,3 +7,7 @@ class MaxLongOperationsError(Exception):
             }
         ]
         super().__init__(errors)
+
+
+class MaxDeleteLimitError(Exception):
+    pass

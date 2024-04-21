@@ -1,20 +1,25 @@
 from django.conf import settings
-from django.core.cache import cache
+from utilities.redis_com.redis_connect import r
+from utilities.redis_com.errors import MaxDeleteLimitError
 
 
-def api_delete_limit_check(user):
-    key = f"user:{user}:update_limit"
-    value = cache.get(key)
-    if value is None:
-        cache.set(key, 1, timeout=43200)
-    elif value < settings.API_UPDATE_LIMIT:
-        cache.incr(key)
+def define_key_name(user):
+    return f"user:{user}:update_limit"
 
 
 def get_delete_limit(user):
-    key = f"user:{user}:update_limit"
-    value = cache.get(key)
-    return value if value is not None else 0
+    key = define_key_name(user)
+    value = r.get(key)
+    return int(value) if value is not None else 0
+
+
+def api_delete_limit_check(user):
+    key = define_key_name(user)
+    value = get_delete_limit(user)
+    if not value:
+        r.set(key, 1, ex=43200)
+    elif value < settings.API_UPDATE_LIMIT:
+        r.incr(key)
 
 
 def check_limit(user):
@@ -22,6 +27,11 @@ def check_limit(user):
 
 
 def delete_limit(user):
-    key = f"user:{user}:update_limit"
-    if cache.has_key(key):
-        cache.delete(key)
+    key = define_key_name(user)
+    if r.has_key(key):
+        r.delete(key)
+
+
+def check_limit_error(user):
+    if check_limit(user):
+        raise MaxDeleteLimitError("Превышен лимит удалений")
