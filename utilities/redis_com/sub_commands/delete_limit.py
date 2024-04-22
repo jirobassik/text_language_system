@@ -28,7 +28,7 @@ def check_limit(user):
 
 def delete_limit(user):
     key = define_key_name(user)
-    if r.has_key(key):
+    if r.exists(key):
         r.delete(key)
 
 
