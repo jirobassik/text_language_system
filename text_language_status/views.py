@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
-from text_language_status.models import TextLanguageManagerModel
+from django.views.generic import ListView, RedirectView
 
+from text_language_status.models import TextLanguageManagerModel
+from utilities.task.revoke_task import revoke_task
 
 class StatusListView(LoginRequiredMixin, ListView):
     model = TextLanguageManagerModel
@@ -16,3 +17,14 @@ class StatusListView(LoginRequiredMixin, ListView):
         if self.request.htmx:
             self.template_name = "text_language_status/status_table.html"
         return super().get(request)
+
+
+class RevokeTaskView(LoginRequiredMixin, RedirectView):
+    query_string = True
+    permanent = True
+    pattern_name = "status-list-view"
+
+    def get_redirect_url(self, *args, **kwargs):
+        task_id = kwargs["task_id"]
+        revoke_task(task_id, self.request.user)
+        return super().get_redirect_url()

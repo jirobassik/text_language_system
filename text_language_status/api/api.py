@@ -12,7 +12,8 @@ from utilities.api.setup_throttle import (
 )
 from ninja_extra.throttling import throttle
 from text_language_status.models import TextLanguageManagerModel
-from utilities.api.docs.apps.status import status_api_kwargs, description
+from utilities.api.docs.apps.status import status_api_kwargs, revoke_status_api_kwargs, description
+from utilities.task.revoke_task import revoke_task
 
 api = NinjaExtraAPI(
     docs_url="/docs/<engine>",
@@ -38,3 +39,11 @@ def status_detail(request, status_id):
         id=status_id, user=request.user, is_deleted=False
     )
     return status_obj
+
+
+@api.get("/status/revoke/{status_id}", **revoke_status_api_kwargs)
+@throttle(User60MinRateThrottle, User100PerDayRateThrottle)
+def revoke_task_status(request, status_id):
+    revoke_task(status_id, request.user)
+    return {"detail": "Task successfully revoked"}
+

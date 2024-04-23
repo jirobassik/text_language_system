@@ -15,6 +15,11 @@
             <td>{{ stat_obj.status }}</td>
             <td>{{ stat_obj.text }}</td>
             <td>{{ stat_obj.time_add }}</td>
+            {% if stat_obj.status == "В очереди" %}
+                <td>
+                    <a href="{% url 'revoke' stat_obj.id %}">Отмена задачи</a>
+                </td>
+            {% endif %}
         </tr>
     {% endfor %}
     </tbody>
