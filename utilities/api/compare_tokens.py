@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
-from api_key.models import ApiKeyModel
+from apps.api_key.models import ApiKeyModel
 
 
 class CompareTokens:
@@ -15,10 +15,14 @@ class CompareTokens:
 
     def __get_api_key_obj(self):
         uuid_api_key = self.input_token.split(".")[1]
-        return ApiKeyModel.objects.get(id=uuid_api_key, is_deleted=False, is_expired=False)
+        return ApiKeyModel.objects.get(
+            id=uuid_api_key, is_deleted=False, is_expired=False
+        )
 
     def __check_token(self):
         api_key_obj = self.__get_api_key_obj()
         return (
-            api_key_obj.user if check_password(self.input_token, api_key_obj.api_token) else None
+            api_key_obj.user
+            if check_password(self.input_token, api_key_obj.api_token)
+            else None
         )

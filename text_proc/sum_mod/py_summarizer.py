@@ -14,7 +14,9 @@ class PySummarizer:
         top_n_rank = TopNRankAbstractor()
         top_n_rank.top_n = num_sentence
         result_dict = self.auto_abstractor.summarize(text, top_n_rank)
-        return "".join([sentence.replace("\n", "") for sentence in result_dict["summarize_result"]])
+        return "".join(
+            [sentence.replace("\n", "") for sentence in result_dict["summarize_result"]]
+        )
 
     def setting_auto_abs(self):
         self.auto_abstractor.tokenizable_doc = SimpleTokenizer()

@@ -12,8 +12,12 @@ class ApiMaxLengthValidator(MaxLengthValidator, ApiBaseValidator):
     message = f"The length of the text should not be more than {settings.API_VALID_MIN_FORM_LENGTH_TEXT}"
 
 
-api_max_length_validation = ApiMaxLengthValidator(settings.API_VALID_MAX_FORM_LENGTH_TEXT)
-api_min_length_validation = ApiMinLengthValidator(settings.API_VALID_MIN_FORM_LENGTH_TEXT)
+api_max_length_validation = ApiMaxLengthValidator(
+    settings.API_VALID_MAX_FORM_LENGTH_TEXT
+)
+api_min_length_validation = ApiMinLengthValidator(
+    settings.API_VALID_MIN_FORM_LENGTH_TEXT
+)
 
 
 def validate_api_text(text):

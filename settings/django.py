@@ -28,7 +28,6 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "textproc.com",
     "localhost",
     "127.0.0.3",
     "127.0.0.1",
@@ -58,22 +57,22 @@ THIRD_PARTY_APPS = [
     "huey.contrib.djhuey",
     "debug_toolbar",
     "django_registration",
-    "django_rename_app",
+    "clearcache",
 ]
 
 LOCAL_APPS = [
-    "user_profile",
-    "text_language",
-    "app_language",
-    "app_summarize",
-    "app_classification",
-    "app_sentiment",
-    "app_extraction",
-    "app_key_phrase",
-    "api_key",
-    "file_view",
-    "history",
-    "text_language_status",
+    "apps.user_profile",
+    "apps_text.text_language",
+    "apps_text.app_language",
+    "apps_text.app_summarize",
+    "apps_text.app_classification",
+    "apps_text.app_sentiment",
+    "apps_text.app_extraction",
+    "apps_text.app_key_phrase",
+    "apps.api_key",
+    "apps.file_view",
+    "apps.history",
+    "apps.text_language_status",
 ]
 
 INSTALLED_APPS = DEFAULT_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -219,9 +218,7 @@ LOGIN_URL = "login"
 LOGOUT_URL = "logout"
 
 ACCOUNT_ACTIVATION_DAYS = 3
-EMAIL_BACKEND = (
-    "django.core.mail.backends.console.EmailBackend"  # TODO надо будет изменить на настоящую почту
-)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # TODO надо будет изменить на настоящую почту
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

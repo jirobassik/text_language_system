@@ -4,7 +4,7 @@ from django.conf import settings
 
 class Request:
     def __init__(self):
-        self.__server_name = settings.NGROK_HTTP_URL
+        self.__server_name = "123"
 
     # def get_request(self, data):
     #     return requests.get(

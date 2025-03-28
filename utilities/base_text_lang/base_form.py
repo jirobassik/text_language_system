@@ -35,6 +35,11 @@ class BaseTextProcForm(forms.Form):
         widget=forms.ClearableFileInput(attrs={"class": "file-input"}),
         help_text="Файл размера не больше 2 МБ и формата: DOCX, PDF, TXT",
     )
+    checkbox = forms.BooleanField(
+        required=False,
+        label="Сохранить в историю",
+        help_text="Файл размера не больше 2 МБ и формата: DOCX, PDF, TXT",
+    )
 
     def clean_file(self):
         cd = self.cleaned_data.get("file")

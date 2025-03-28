@@ -10,6 +10,7 @@ from utilities.file_manager.readers.pdf_reader import PdfReader
 from utilities.file_manager.readers.txt_reader import TxtReader
 from utilities.api.docs.common import common_file_error_message
 
+
 class FileManager:
     error_message = "Не удалось прочитать файл"
 

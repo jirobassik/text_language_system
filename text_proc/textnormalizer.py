@@ -15,9 +15,7 @@ class TextProc:
         self.__text_proc()
 
     def __remove_urls(self):
-        pattern = (
-            r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
-        )
+        pattern = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
         self.text = re.sub(pattern, "", self.text)
         return self
 
@@ -34,7 +32,13 @@ class TextProc:
 
 
 class TextNormalizer:
-    __slots__ = ("text_pre_proc", "proc_text", "world_len", "priority_name_using", "methods")
+    __slots__ = (
+        "text_pre_proc",
+        "proc_text",
+        "world_len",
+        "priority_name_using",
+        "methods",
+    )
 
     def __init__(
         self,
@@ -57,8 +61,12 @@ class TextNormalizer:
             ): self.remove_punctation,
             self.priority_name_using(1, "lowercase", lowercase): self.lowercase,
             self.priority_name_using(1, "lemmatize", lemmatize): self.lemmatize,
-            self.priority_name_using(1, "remove_number", remove_number): self.remove_number,
-            self.priority_name_using(2, "remove_world_ge", remove_world_ge): self.remove_world_ge,
+            self.priority_name_using(
+                1, "remove_number", remove_number
+            ): self.remove_number,
+            self.priority_name_using(
+                2, "remove_world_ge", remove_world_ge
+            ): self.remove_world_ge,
             self.priority_name_using(3, "join_text", join_text): self.join_text,
         }
 
@@ -68,8 +76,6 @@ class TextNormalizer:
         return pipe(tokenize_text, *filter_dict.values())
 
     def define_proc_methods(self):
-        # def_methods = dict(sorted(filter(self.filter_dict_meth, self.methods.items()),
-        #                           key=lambda pair: pair[0].priority))
         if not (
             def_methods := dict(
                 sorted(
@@ -113,7 +119,11 @@ class TextNormalizer:
         return [word for word in token_text if not word.isnumeric()]
 
     def remove_world_ge(self, token_text: list[str]):
-        return [word for word in token_text if len(word) <= self.world_len or not word.isalpha()]
+        return [
+            word
+            for word in token_text
+            if len(word) <= self.world_len or not word.isalpha()
+        ]
 
     @staticmethod
     def join_text(token_text):

@@ -59,10 +59,5 @@ error_response = {
 
 # Common response
 common_response = {
-    "responses": {
-        200: {"description": "OK", **common_ok},
-        **error_response
-    },
+    "responses": {200: {"description": "OK", **common_ok}, **error_response},
 }
-
-

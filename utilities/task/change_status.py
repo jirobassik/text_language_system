@@ -1,5 +1,5 @@
 from types import MappingProxyType
-from text_language_status.models import TextLanguageManagerModel
+from apps.text_language_status.models import TextLanguageManagerModel
 from utilities.redis_com.sub_commands.limit_long_operation import delete_long_operation
 
 

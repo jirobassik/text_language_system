@@ -4,7 +4,7 @@ from text_proc.textnormalizer import TextNormalizer
 from collections import Counter
 from operator import ge, getitem
 from decimal import Decimal
-from app_language.models import LanguagePoaModel
+from apps_text.app_language.models import LanguagePoaModel
 
 
 class ShortWord:
@@ -45,7 +45,9 @@ class ShortWord:
 
     @staticmethod
     def __counter_number_short_words(counter: dict):
-        return dict(filter(lambda short_word: ge(getitem(short_word, 1), 3), counter.items()))
+        return dict(
+            filter(lambda short_word: ge(getitem(short_word, 1), 3), counter.items())
+        )
 
     @staticmethod
     def __calculate_probability_each_world(counter: dict, all_words_counter: int):
