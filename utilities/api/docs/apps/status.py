@@ -9,8 +9,14 @@ responses = {
     "responses": {**error_response},
 }
 
-# history_detail
+# status_detail
 status_api_kwargs = {
     "openapi_extra": {**responses},
     "summary": "Get status with history",
+}
+
+# revoke_task
+revoke_status_api_kwargs = {
+    "openapi_extra": {**responses},
+    "summary": "Revoke task from status",
 }
