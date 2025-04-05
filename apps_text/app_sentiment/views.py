@@ -14,16 +14,15 @@ class SentimentView(BaseTextFileView):
     button_name = "Определить тональность"
     app_name = "app_sentiment"
 
-    def setup_input_context(self, file, text):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
+    def setup_input_context(self, file, text, **kwargs):
         try:
-            context["result"] = self.gen_result(choose_input_text)
+            context = super().setup_input_context(file, text, **kwargs)
+            return context
         except (SentimentAnalyzerError, LangDetectException):
             messages.error(self.request, "Не удалось определить тональность")
-        return context
+        return self.get_context_data()
 
-    def gen_result(self, choose_input_text):
+    def gen_result(self, choose_input_text, **kwargs):
         result = self.get_method()(choose_input_text)
         self.save_hset(
             input_text=choose_input_text,

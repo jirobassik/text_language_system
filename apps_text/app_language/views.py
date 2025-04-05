@@ -16,14 +16,13 @@ class TextLanguageView(BaseTextFileMethodCheckBoxView):
     button_name = "Определить язык"
     app_name = "app_language"
 
-    def setup_input_context(self, file, text, method, checkbox):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
+    def setup_input_context(self, file, text, **kwargs):
         try:
-            context["result"] = self.gen_result(method, choose_input_text, checkbox)
+            context = super().setup_input_context(file, text, **kwargs)
+            return context
         except (LangDetectException, ValueError):
             messages.error(self.request, "Не удалось определить язык")
-        return context
+        return self.get_context_data()
 
     def setup_long_task(self, user, task_model_pk, choose_input_text, **kwargs):
         return language_task(user, task_model_pk, choose_input_text, **kwargs)

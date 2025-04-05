@@ -17,9 +17,6 @@ class BaseTextProcView(FormView, HsetMixin):
         kwargs["button_name"] = self.button_name
         return super().get_context_data(**kwargs)
 
-    def get_method(self):
-        raise NotImplementedError(".get_method() must be overridden")
-
     def save_hset(self, **kwargs):
         try:
             self.set_hset(self.request.session.session_key, **kwargs)
@@ -27,6 +24,18 @@ class BaseTextProcView(FormView, HsetMixin):
             messages.error(
                 self.request, "Не удалось обработать, свяжитесь с администратором"
             )
+
+    def setup_input_context(self, file, text, **kwargs):
+        choose_input_text = self.choose_input(file, text)
+        context = self.get_context_data()
+        context["result"] = self.gen_result(choose_input_text, **kwargs)
+        return context
+
+    def get_method(self):
+        raise NotImplementedError(".get_method() must be overridden")
+
+    def gen_result(self, choose_input_text, **kwargs):
+        raise NotImplementedError(".gen_result() must be overridden")
 
     @staticmethod
     def choose_input(file, text):
@@ -39,13 +48,7 @@ class BaseTextFileView(BaseTextProcView):
         context = self.setup_input_context(file, text)
         return self.render_to_response(context)
 
-    def setup_input_context(self, file, text):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
-        context["result"] = self.gen_result(choose_input_text)
-        return context
-
-    def gen_result(self, choose_input_text):
+    def gen_result(self, choose_input_text, **kwargs):
         result = self.get_method()(choose_input_text)
         self.save_hset(
             input_text=choose_input_text,
@@ -64,16 +67,11 @@ class BaseTextFileView(BaseTextProcView):
 class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
     def form_valid(self, form):
         text, file, method = self.get_cleaned_text_file_method(form)
-        context = self.setup_input_context(file, text, method)
+        context = self.setup_input_context(file, text, method=method)
         return self.render_to_response(context)
 
-    def setup_input_context(self, file, text, method):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
-        context["result"] = self.gen_result(method, choose_input_text)
-        return context
-
-    def gen_result(self, method, choose_input_text):
+    def gen_result(self, choose_input_text, **kwargs):
+        method = kwargs.get("method")
         result = self.get_method().get(method)(choose_input_text)
         self.save_hset(
             input_text=choose_input_text,
@@ -92,24 +90,21 @@ class BaseTextFileMethodView(BaseTextProcView, HsetMixin):
 
 
 class BaseTextFileMethodCheckBoxView(
-    BaseTextProcView, BaseStatusImmediately, AccessMixin
+    BaseStatusImmediately, BaseTextProcView, AccessMixin
 ):
     def form_valid(self, form):
         text, file, method, checkbox = self.get_cleaned_text_file_method(form)
         try:
-            context = self.setup_input_context(file, text, method, checkbox)
+            context = self.setup_input_context(
+                file, text, method=method, checkbox=checkbox
+            )
             return self.render_to_response(context)
         except PermissionDenied:
             return self.handle_no_permission()
 
-    def setup_input_context(self, file, text, method, checkbox):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
-        context["result"] = self.gen_result(method, choose_input_text, checkbox)
-        return context
-
     @override(check_signature=False)
-    def gen_result(self, method, choose_input_text, checkbox):
+    def gen_result(self, choose_input_text, **kwargs):
+        method, checkbox = kwargs.get("method"), kwargs.get("checkbox")
         result = self.get_method().get(method)(choose_input_text)
         self.save_hset(
             input_text=choose_input_text,

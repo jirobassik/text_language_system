@@ -1,4 +1,6 @@
 from django.urls import reverse_lazy
+from joblib.parallel import method
+
 from utilities.base_text_lang.base_view import BaseTextProcView
 
 from apps_text.app_summarize.forms import SummarizeForm
@@ -15,16 +17,11 @@ class SummarizeView(BaseTextProcView, HsetMixin):
 
     def form_valid(self, form):
         text, file, method, num_sentences = self.get_cleaned_text_file_method(form)
-        context = self.setup_input_context(file, text, method, num_sentences)
+        context = self.setup_input_context(file, text, method=method, num_sentences=num_sentences)
         return self.render_to_response(context)
 
-    def setup_input_context(self, file, text, method, num_sentences):
-        choose_input_text = self.choose_input(file, text)
-        context = self.get_context_data()
-        context["result"] = self.gen_result(method, choose_input_text, num_sentences)
-        return context
-
-    def gen_result(self, method, choose_input_text, num_sentences):
+    def gen_result(self, choose_input_text, **kwargs):
+        method, num_sentences = kwargs.get("method"), kwargs.get("num_sentences")
         result = self.get_method().get(method)(choose_input_text, num_sentences)
         self.save_hset(
             input_text=choose_input_text,
