@@ -38,7 +38,7 @@ class BaseTextProcForm(forms.Form):
     checkbox = forms.BooleanField(
         required=False,
         label="Сохранить в историю",
-        help_text="Файл размера не больше 2 МБ и формата: DOCX, PDF, TXT",
+        help_text="Сохранить результат обработки в историю",
     )
 
     def clean_file(self):

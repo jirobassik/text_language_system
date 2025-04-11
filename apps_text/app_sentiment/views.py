@@ -2,12 +2,13 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from langdetect.lang_detect_exception import LangDetectException
 from apps_text.app_sentiment.forms import SentimentForm
-from utilities.base_text_lang.base_view import BaseTextFileView
+from apps_text.app_sentiment.tasks import sentiment_task
+from utilities.base_text_lang.base_view import BaseTextFileExtraSaveResultView
 from text_proc.sent_mod.sentiment_analyzer import SentimentAnalyzer
 from text_proc.sent_mod.errors import SentimentAnalyzerError
 
 
-class SentimentView(BaseTextFileView):
+class SentimentView(BaseTextFileExtraSaveResultView):
     template_name = "app_sentiment/sentiment_form.html"
     form_class = SentimentForm
     success_url = reverse_lazy("sentiment-view")
@@ -22,16 +23,31 @@ class SentimentView(BaseTextFileView):
             messages.error(self.request, "Не удалось определить тональность")
         return self.get_context_data()
 
-    def gen_result(self, choose_input_text, **kwargs):
-        result = self.get_method()(choose_input_text)
+    def save_extra_hset(self, choose_input_text, processed_text, **kwargs):
         self.save_hset(
             input_text=choose_input_text,
-            result=result.classification,
-            pos_per=result.p_pos,
-            neg_per=result.p_neg,
+            result=processed_text.classification,
+            pos_per=processed_text.p_pos,
+            neg_per=processed_text.p_neg,
             app_name=self.app_name,
+            **kwargs,
         )
-        return result
+
+    def setup_long_task(self, user, task_model_pk, choose_input_text, **kwargs):
+        res = kwargs.get("res")
+        kwargs.update(
+            {
+                "res": {
+                    "Classification": res.classification,
+                    "P_pos": res.p_pos,
+                    "P_neg": res.p_neg,
+                }
+            }
+        )
+        return sentiment_task(user, task_model_pk, choose_input_text, **kwargs)
+
+    def setup_result(self, text):
+        return self.get_method()(text)
 
     def get_method(self):
         return SentimentAnalyzer()

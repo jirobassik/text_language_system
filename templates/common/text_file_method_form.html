@@ -17,10 +17,12 @@
                 {{ form.method }}
                 {{ form.method.help_text }}
             </div>
-            {{ form.checkbox.errors }}
-            {{ form.checkbox.label_tag }}
-            {{ form.checkbox }}
-            {{ form.checkbox.help_text }}
+            <div class="checkbox-field">
+                {{ form.checkbox.errors }}
+                {{ form.checkbox.label_tag }}
+                {{ form.checkbox }}
+                {{ form.checkbox.help_text }}
+            </div>
         </div>
     </div>
     <button type="submit" name="detector">{{ button_name }}</button>

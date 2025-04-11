@@ -99,3 +99,27 @@ select {
 .result {
     margin-top: 20px;
 }
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    display: inline-block;
+    position: relative;
+}
+
+/* Style for checked state of checkboxes */
+input[type="checkbox"]:checked {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+.checkbox-field {
+    margin-bottom: 20px;
+}
+
+
