@@ -3,10 +3,12 @@ from utilities.redis_com.sub_commands.limit_long_operation import (
     add_long_operation,
     check_limit_long_operation,
 )
+from django.contrib import messages
 
 
 class BaseStatus:
     def gen_result(self, choose_input_text, **kwargs):
+        messages.success(self.request, "Результат отправлен на сохранение")
         user, task_model = self.create_manager_field(
             text=f"{choose_input_text[:30]}..."
         )

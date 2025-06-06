@@ -11,7 +11,10 @@
             {% if result %}
                 <div class="result">
                     <h2>Результат <a href="{% url 'json_view' %}"><i class="bi bi-filetype-json"
-                                                                     style="color: grey; font-size: 25px"></i></a></h2>
+                                                                     style="color: grey; font-size: 25px"></i></a>
+                        <a href="{% url 'txt_view' %}"><i class="bi bi-filetype-txt"
+                                                          style="color: grey; font-size: 25px"></i></a>
+                    </h2>
                     <p>Извлеченные именованные сущности: </p>
                     {% for key, value in result.items %}
                         <p> {{ key }} - {{ value }}</p>

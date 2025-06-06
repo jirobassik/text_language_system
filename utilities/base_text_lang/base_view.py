@@ -3,6 +3,7 @@ from django.views.generic import FormView
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from utilities.base_text_lang.base_status import BaseStatusImmediately
+from utilities.base_text_lang.errors import NotValidExtraDataError
 from utilities.converter import convert_to_serializable
 from utilities.file_manager.file import FileManager
 from utilities.base_text_lang.mixins import HsetMixin
@@ -56,8 +57,9 @@ class BaseTextFileExtraView(BaseTextProcView, HsetMixin):
 
     def setup_extra_kwargs(self, **kwargs):
         for key, value in kwargs.items():
-            if key in self.valid_extra_data:
-                setattr(self, key, value)
+            if key not in self.valid_extra_data:
+                raise NotValidExtraDataError
+            setattr(self, key, value)
 
     def gen_result(self, choose_input_text, **kwargs):
         processed_text = self.setup_result(choose_input_text)

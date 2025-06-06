@@ -1,0 +1,2 @@
+class NotValidExtraDataError(Exception):
+    pass
