@@ -4,10 +4,10 @@ from utilities.redis_com.sub_commands.limit_long_operation import delete_long_op
 
 
 def create_history_update_status_delete_limit(
-    user, task_model_pk, choose_input_text, res
+    user, task_model_pk, choose_input_text, res, method
 ):
     his_obj = HistoryModel.objects.create(
-        user=user, input_text=choose_input_text, result_text=res
+        user=user, input_text=choose_input_text, result_text=res, method=method
     )
     TextLanguageManagerModel.objects.filter(id=task_model_pk, user=user).update(
         history_id=his_obj.id, executed=True

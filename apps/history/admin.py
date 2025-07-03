@@ -9,8 +9,9 @@ class HistoryAdmin(admin.ModelAdmin):
         "id",
         "input_text",
         "result_text",
+        "method",
         "user",
         "is_deleted",
         "created_at",
     ]
-    fields = ["input_text", "result_text", "user", "is_deleted"]
+    fields = ["input_text", "result_text", "method", "user", "is_deleted"]

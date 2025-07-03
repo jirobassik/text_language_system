@@ -10,6 +10,7 @@
                 <th>Введенный текст</th>
                 <th>Результат обработки</th>
                 <th>Время добавления</th>
+                <th>Используемый метод</th>
                 <th></th>
             </tr>
             </thead>
@@ -19,6 +20,11 @@
                     <td>{{ his_obj.input_text|truncatechars_html:20 }}</td>
                     <td>{{ his_obj.result_text|truncatechars:20 }}</td>
                     <td>{{ his_obj.created_at }}</td>
+                    {% if not his_obj.method %}
+                        <td>Отстутствует</td>
+                    {% else %}
+                        <td>{{ his_obj.method }}</td>
+                    {% endif %}
                     <td><a href="{{ his_obj.get_absolute_url }}">Подробнее</a></td>
                 </tr>
             {% endfor %}

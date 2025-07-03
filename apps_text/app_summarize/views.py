@@ -21,7 +21,7 @@ class SummarizeView(BaseTextFileExtraSaveResultView, HsetMixin):
         )
 
     def setup_long_task(self, user, task_model_pk, choose_input_text, **kwargs):
-        return summarize_task(user, task_model_pk, choose_input_text, **kwargs)
+        return summarize_task(user, task_model_pk, choose_input_text, method=getattr(self, "method"), **kwargs)
 
     def get_method(self):
         return methods

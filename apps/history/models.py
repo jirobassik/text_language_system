@@ -9,6 +9,7 @@ class HistoryModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     input_text = models.TextField("Введенный текст", max_length=10000)
     result_text = models.TextField("Результата обработки", max_length=10000)
+    method = models.CharField("Используемый метод", max_length=100, blank=True)
     created_at = models.DateTimeField(
         "Время добавления", auto_created=True, editable=False, auto_now_add=True
     )

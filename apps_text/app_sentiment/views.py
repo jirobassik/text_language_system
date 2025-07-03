@@ -44,7 +44,9 @@ class SentimentView(BaseTextFileExtraSaveResultView):
                 }
             }
         )
-        return sentiment_task(user, task_model_pk, choose_input_text, **kwargs)
+        return sentiment_task(
+            user, task_model_pk, choose_input_text, method="sentiment", **kwargs
+        )
 
     def setup_result(self, text):
         return self.get_method()(text)

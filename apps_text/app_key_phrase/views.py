@@ -28,7 +28,9 @@ class KeyPhraseExtractionView(BaseTextFileExtraSaveResultView, HsetMixin):
 
     def setup_long_task(self, user, task_model_pk, choose_input_text, **kwargs):
         kwargs.update({"res": convert_to_serializable(kwargs.get("res"))})
-        return key_phrase_task(user, task_model_pk, choose_input_text, **kwargs)
+        return key_phrase_task(
+            user, task_model_pk, choose_input_text, method="key phrase", **kwargs
+        )
 
     def setup_result(self, text):
         return self.get_method()(text, getattr(self, "num_key_phrase"))

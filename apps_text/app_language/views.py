@@ -28,7 +28,13 @@ class TextLanguageView(BaseTextFileExtraSaveResultView):
         return self.get_method().get(getattr(self, "method"))(text)
 
     def setup_long_task(self, user, task_model_pk, choose_input_text, **kwargs):
-        return language_task(user, task_model_pk, choose_input_text, **kwargs)
+        return language_task(
+            user,
+            task_model_pk,
+            choose_input_text,
+            method=getattr(self, "method"),
+            **kwargs
+        )
 
     def get_method(self):
         return methods
